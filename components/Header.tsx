@@ -1,33 +1,27 @@
-import {
-
-  getRedirectResult,
-  signInWithPopup,
-  TwitterAuthProvider,
-} from "firebase/auth";
-
-import { auth } from "../lib/firebase";
+import useUser from "../hooks/useUser";
 
 const Header = (): JSX.Element => {
-  const provider = new TwitterAuthProvider();
-
-  const signIn = () =>
-    signInWithPopup(auth, provider).then(result => {
-      const credential = TwitterAuthProvider.credentialFromResult(result);
-
-      const user = result.user;
-
-      console.log("Credential: ", credential);
-      console.log("User: ", user);
-    });
+  const { signIn, user } = useUser();
 
   return (
     <nav className="flex justify-end">
-      <button
-        className="p-2 text-white bg-blue-500 rounded-full"
-        onClick={signIn}
-      >
-        Sign In with Twitter
-      </button>
+      {user ? (
+        <div className="flex items-center justify-center text-gray-200 bg-gray-700 rounded-md row">
+          <p>{user.displayName}</p>
+          <img
+            src={user.photoURL}
+            alt="Profile Picture"
+            className="w-12 h-12"
+          />
+        </div>
+      ) : (
+        <button
+          className="p-2 text-white bg-blue-500 rounded-full"
+          onClick={signIn}
+        >
+          Sign In with Twitter
+        </button>
+      )}
     </nav>
   );
 };

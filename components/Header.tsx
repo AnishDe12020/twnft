@@ -1,3 +1,4 @@
+import Image from "next/image";
 import useUser from "../hooks/useUser";
 
 const Header = (): JSX.Element => {
@@ -6,12 +7,14 @@ const Header = (): JSX.Element => {
   return (
     <nav className="flex justify-end">
       {user ? (
-        <div className="flex items-center justify-center text-gray-200 bg-gray-700 rounded-md row">
-          <p>{user.displayName}</p>
-          <img
-            src={user.photoURL}
+        <div className="flex items-center justify-between p-2 text-white bg-gray-800 rounded-full">
+          <p className="ml-2 mr-4">{user.displayName}</p>
+          <Image
+            src={user.photoURL as string}
             alt="Profile Picture"
-            className="w-12 h-12"
+            className="rounded-full"
+            width={48}
+            height={48}
           />
         </div>
       ) : (

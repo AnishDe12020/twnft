@@ -1,5 +1,10 @@
-import { signInWithPopup, TwitterAuthProvider, User } from "firebase/auth";
-import { useState } from "react";
+import {
+  signInWithPopup,
+  TwitterAuthProvider,
+  User,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { useEffect, useState } from "react";
 
 import { auth } from "../lib/firebase";
 
@@ -8,7 +13,11 @@ const useUser = () => {
 
   const [twitterAccountId, setTwitterAccountId] = useState<string>();
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(auth.currentUser);
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, setUser);
+  }, [auth]);
 
   const signIn = () => {
     signInWithPopup(auth, provider).then(result => {

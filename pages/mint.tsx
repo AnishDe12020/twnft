@@ -93,11 +93,15 @@ const MintPage: NextPage = () => {
       </Formik>
       {tweetData && (
         <div className="flex flex-col w-10/12 h-4/6">
-          <div className="flex items-center justify-start col">
+          <div className="flex flex-row items-center justify-start">
             <img
               src={tweetData.includes.users[0].profile_image_url}
               alt={`{Profile picture for ${tweetData.includes.users[0].username}`}
             />
+            <div className="flex flex-col justify-start ml-4">
+              <p>{tweetData.includes.users[0].name}</p>
+              <p>@{tweetData.includes.users[0].username}</p>
+            </div>
           </div>
         </div>
       )}

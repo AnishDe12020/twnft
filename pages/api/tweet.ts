@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const twitterData = await twitterRes.json();
     console.log(twitterData);
     res.status(200).json(twitterData);
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     res.status(500).json({ error: err.message });
   }

@@ -102,6 +102,15 @@ const MintPage: NextPage = () => {
               <p>{tweetData.includes.users[0].name}</p>
               <p>@{tweetData.includes.users[0].username}</p>
             </div>
+            <p>{tweetData.data.text}</p>
+            <div className="flex flex-row space-x-4">
+              <div>
+                <p>{tweetData.data.public_metrics.retweet_count}</p>
+              </div>
+              <div>
+                <p>{tweetData.data.public_metrics.reply_count}</p>
+              </div>
+            </div>
           </div>
         </div>
       )}

@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { ChangeEvent, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { Spinner } from "../components/Icons";
+import { Like, Reply, Retweet, Spinner } from "../components/Icons";
 
 interface IEntitiesMentions {
   start: number;
@@ -93,22 +93,30 @@ const MintPage: NextPage = () => {
       </Formik>
       {tweetData && (
         <div className="flex flex-col w-10/12 h-4/6">
-          <div className="flex flex-row items-center justify-start">
-            <img
-              src={tweetData.includes.users[0].profile_image_url}
-              alt={`{Profile picture for ${tweetData.includes.users[0].username}`}
-            />
-            <div className="flex flex-col justify-start ml-4">
-              <p>{tweetData.includes.users[0].name}</p>
-              <p>@{tweetData.includes.users[0].username}</p>
+          <div className="flex flex-col items-start justify-start">
+            <div className="flex space-x-2 col">
+              <img
+                src={tweetData.includes.users[0].profile_image_url}
+                alt={`{Profile picture for ${tweetData.includes.users[0].username}`}
+              />
+              <div className="flex flex-col justify-start ml-4">
+                <p>{tweetData.includes.users[0].name}</p>
+                <p>@{tweetData.includes.users[0].username}</p>
+              </div>
             </div>
             <p>{tweetData.data.text}</p>
             <div className="flex flex-row space-x-4">
-              <div>
+              <div className="flex space-x-2">
+                <Retweet />
                 <p>{tweetData.data.public_metrics.retweet_count}</p>
               </div>
-              <div>
+              <div className="flex space-x-2">
+                <Reply />
                 <p>{tweetData.data.public_metrics.reply_count}</p>
+              </div>
+              <div className="flex space-x-2">
+                <Like />
+                <p>{tweetData.data.public_metrics.like_count}</p>
               </div>
             </div>
           </div>

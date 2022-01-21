@@ -99,7 +99,7 @@ const MintPage: NextPage = () => {
               <img
                 src={tweetData.includes.users[0].profile_image_url}
                 alt={`{Profile picture for ${tweetData.includes.users[0].username}`}
-				className="rounded-full h-12 w-12"
+                className="w-12 h-12 rounded-full"
               />
               <div className="flex flex-col justify-start ml-4">
                 <p>{tweetData.includes.users[0].name}</p>
@@ -124,7 +124,11 @@ const MintPage: NextPage = () => {
             </div>
             <div className="grid grid-cols-2 grid-rows-2">
               {tweetData.includes.media.map(media => (
-                <img src={media.url} alt={media.alt_text} />
+                <img
+                  src={media.url}
+                  alt={media.alt_text}
+                  key={media.media_key}
+                />
               ))}
             </div>
           </div>

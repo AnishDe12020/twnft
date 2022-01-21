@@ -32,7 +32,9 @@ const MintPage: NextPage = () => {
           </Form>
         )}
       </Formik>
-      {tweetData && <Tweet tweetData={tweetData} />}
+      {tweetData && (
+        <Tweet tweetData={tweetData.data} tweetIncludes={tweetData.includes} />
+      )}
     </div>
   );
 };

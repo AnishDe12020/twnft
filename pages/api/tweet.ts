@@ -7,10 +7,16 @@ const TWITTER_API_MORE_PARAMS =
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const tweetUrl = req.query.tweetUrl as string;
-    console.log(tweetUrl);
-    const tweetId = tweetUrl.split("/")[5];
-    console.log(tweetId);
+    let tweetId: string = "";
+    if (req.query.tweetId) {
+      tweetId = req.query.tweetId as string;
+    } else {
+      const tweetUrl = req.query.tweetUrl as string;
+      console.log(tweetUrl);
+      tweetId = tweetUrl.split("/")[5];
+      console.log(tweetId);
+    }
+
     const URL = TWITTER_TWEET_API_URL + tweetId + TWITTER_API_MORE_PARAMS;
     console.log(URL);
     const twitterRes = await fetch(URL, {

@@ -21,7 +21,7 @@ interface IReferencedTweets {
   id: string;
 }
 
-interface ITweetData {
+export interface ITweetData {
   created_at: Date;
   author_id: string;
   text: string;
@@ -49,10 +49,10 @@ interface ITwitterMedia {
   alt_text: string;
 }
 
-interface ITweetIncludes {
+export interface ITweetIncludes {
   users: ITwitterUser[];
   media: ITwitterMedia[];
-  tweets: ITweetData[];
+  tweets: ITweetObject[];
 }
 
 interface ITweetObject {

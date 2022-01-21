@@ -30,7 +30,7 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
   console.log(tweetIncludes);
 
   return (
-    <div className="flex flex-col w-10/12 h-4/6">
+    <div className="flex flex-col p-8 text-gray-100 w-[40rem] rounded-2xl h-auto bg-secondary">
       <div className="flex flex-col items-start justify-start">
         <div className="flex space-x-2 col">
           <img
@@ -59,9 +59,19 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
             <p>{tweetData.public_metrics.like_count}</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 grid-rows-2">
+        <div
+          className="grid h-full gap-0.5"
+          style={{
+            gridTemplateColumns: "repeat(auto-fit, minmax(12rem, 1fr))",
+          }}
+        >
           {tweetIncludes.media?.map(media => (
-            <img src={media.url} alt={media.alt_text} key={media.media_key} />
+            <img
+              src={media.url}
+              alt={media.alt_text}
+              key={media.media_key}
+              className="max-w-48"
+            />
           ))}
         </div>
         {quoteTweet && (

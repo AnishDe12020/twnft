@@ -99,6 +99,7 @@ const MintPage: NextPage = () => {
               <img
                 src={tweetData.includes.users[0].profile_image_url}
                 alt={`{Profile picture for ${tweetData.includes.users[0].username}`}
+				className="rounded-full h-12 w-12"
               />
               <div className="flex flex-col justify-start ml-4">
                 <p>{tweetData.includes.users[0].name}</p>

@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { ChangeEvent, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { format, formatISO } from "date-fns";
 import { Like, Reply, Retweet, Spinner } from "../components/Icons";
 
 interface IEntitiesMentions {
@@ -103,6 +104,7 @@ const MintPage: NextPage = () => {
                 <p>{tweetData.includes.users[0].name}</p>
                 <p>@{tweetData.includes.users[0].username}</p>
               </div>
+              <p>{format(new Date(tweetData.data.created_at), "PPP")}</p>
             </div>
             <p>{tweetData.data.text}</p>
             <div className="flex flex-row space-x-4">
@@ -118,6 +120,11 @@ const MintPage: NextPage = () => {
                 <Like />
                 <p>{tweetData.data.public_metrics.like_count}</p>
               </div>
+            </div>
+            <div className="grid grid-cols-2 grid-rows-2">
+              {tweetData.includes.media.map(media => (
+                <img src={media.url} alt={media.alt_text} />
+              ))}
             </div>
           </div>
         </div>

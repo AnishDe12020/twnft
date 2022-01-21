@@ -34,9 +34,9 @@ const MintPage: NextPage = () => {
             <ErrorMessage name="link" />
             <button type="submit" className="w-6 h-6 ml-2 text-gray-300">
               {isSubmitting ? (
-                <Spinner />
+                <Spinner className="text-accent" />
               ) : (
-                <HiArrowNarrowRight className="w-6 h-6 hover:opacity-80" />
+                <HiArrowNarrowRight className="w-6 h-6 hover:text-accent" />
               )}
             </button>
           </Form>

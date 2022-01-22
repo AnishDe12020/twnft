@@ -12,9 +12,14 @@ import twttr from "twitter-text";
 interface TweetProps {
   tweetData: ITweetData;
   tweetIncludes: ITweetIncludes;
+  isQuoteTweet?: boolean;
 }
 
-const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
+const Tweet = ({
+  tweetData,
+  tweetIncludes,
+  isQuoteTweet,
+}: TweetProps): JSX.Element => {
   const [quoteTweet, setQuoteTweet] = useState<ITweetObject>();
   const [tweetText, setTweetText] = useState<string>(tweetData.text);
 
@@ -57,7 +62,11 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
   }, [tweetData]);
 
   return (
-    <div className="flex flex-col p-8 text-white w-[40rem] rounded-2xl bg-secondary">
+    <div
+      className={`flex flex-col w-auto p-8 text-white ${
+        quoteTweet ? "w-[44rem]" : "w-[40rem]"
+      } rounded-2xl ${isQuoteTweet ? "bg-[#404040]" : "bg-secondary"}`}
+    >
       <div className="flex flex-col items-start justify-start">
         <div className="flex col">
           <img
@@ -105,12 +114,15 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
             />
           ))}
         </div>
-        {quoteTweet && (
-          <Tweet
-            tweetData={quoteTweet?.data}
-            tweetIncludes={quoteTweet?.includes}
-          />
-        )}
+        <div className="mx-8">
+          {quoteTweet && !isQuoteTweet && (
+            <Tweet
+              isQuoteTweet
+              tweetData={quoteTweet?.data}
+              tweetIncludes={quoteTweet?.includes}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

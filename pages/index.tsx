@@ -5,7 +5,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Header />
-      <h1>
+      <h1 className="text-white">
         {" "}
         <h1>
           Hey there, this is just a project I am working on. If you made it so

@@ -63,7 +63,7 @@ const Tweet = ({
 
   return (
     <div
-      className={`flex flex-col w-auto p-8 text-white ${
+      className={`flex flex-col w-auto p-8 text-white mx-16 ${
         quoteTweet ? "w-[44rem]" : "w-[40rem]"
       } rounded-2xl ${isQuoteTweet ? "bg-[#404040]" : "bg-secondary"}`}
     >

@@ -24,7 +24,7 @@ const MintPage: NextPage = () => {
         }}
       >
         {({ isSubmitting }) => (
-          <Form className="flex items-center px-4 py-2 mt-8 transition duration-200 border-2 border-gray-500 shadow-lg px-w rounded-xl bg-secondary/60 backdrop-filter backdrop-blur-3x focus-within:border-accent hover:border-gray-600 focus-within:hover:border-accent">
+          <Form className="fixed flex items-center px-4 py-2 transition duration-200 border-2 border-gray-500 shadow-lg top-8 px-w rounded-xl bg-secondary/60 backdrop-filter backdrop-blur-xl focus-within:border-accent hover:border-gray-600 focus-within:hover:border-accent">
             <Field
               type="text"
               name="link"
@@ -42,9 +42,14 @@ const MintPage: NextPage = () => {
           </Form>
         )}
       </Formik>
-      {tweetData && (
-        <Tweet tweetData={tweetData.data} tweetIncludes={tweetData.includes} />
-      )}
+      <div className="mt-32 mb-16">
+        {tweetData && (
+          <Tweet
+            tweetData={tweetData.data}
+            tweetIncludes={tweetData.includes}
+          />
+        )}
+      </div>
     </div>
   );
 };

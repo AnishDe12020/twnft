@@ -7,8 +7,6 @@ import ITweetObject, {
 } from "../types/TweetData";
 import { Like, Reply, Retweet } from "./Icons";
 
-import twttr from "twitter-text";
-
 interface TweetProps {
   tweetData: ITweetData;
   tweetIncludes: ITweetIncludes;

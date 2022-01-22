@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 const TWITTER_TWEET_API_URL = "https://api.twitter.com/2/tweets/";
 const TWITTER_API_MORE_PARAMS =
-  "?expansions=author_id,referenced_tweets.id,in_reply_to_user_id,attachments.media_keys,entities.mentions.username,referenced_tweets.id.author_id&tweet.fields=created_at,text,in_reply_to_user_id,referenced_tweets,attachments,public_metrics&user.fields=name,username,verified,profile_image_url&media.fields=media_key,duration_ms,height,preview_image_url,type,url,width,public_metrics,alt_text";
+  "?expansions=author_id,referenced_tweets.id,in_reply_to_user_id,attachments.media_keys,entities.mentions.username,referenced_tweets.id.author_id&tweet.fields=created_at,text,in_reply_to_user_id,referenced_tweets,attachments,public_metrics&user.fields=name,username,verified,profile_image_url,entities&media.fields=media_key,duration_ms,height,preview_image_url,type,url,width,public_metrics,alt_text";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {

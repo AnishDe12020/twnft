@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import ITweetObject, { ITweetIncludes, ITweetData } from "../types/TweetData";
 import { Like, Reply, Retweet } from "./Icons";
 
+import twttr from "twitter-text";
+
 interface TweetProps {
   tweetData: ITweetData;
   tweetIncludes: ITweetIncludes;
@@ -27,7 +29,14 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
 
     fetchQuoteTweet();
   }, [tweetData?.referenced_tweets]);
-  console.log(tweetIncludes);
+  // console.log(tweetIncludes);
+
+  console.log(
+    "AutoLink",
+    twttr.autoLink(tweetData.text, {
+      urlEntities: tweetIncludes.urls,
+    })
+  );
 
   return (
     <div className="flex flex-col p-8 text-white w-[40rem] rounded-2xl bg-secondary">
@@ -64,7 +73,7 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
           </div>
         </div>
         <div
-          className="grid h-full gap-0.5"
+          className="grid h-full gap-2 mt-8"
           style={{
             gridTemplateColumns: "repeat(auto-fit, minmax(12rem, 1fr))",
           }}
@@ -74,7 +83,7 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
               src={media.url}
               alt={media.alt_text}
               key={media.media_key}
-              className="max-w-48"
+              className="max-w-48 rounded-2xl"
             />
           ))}
         </div>

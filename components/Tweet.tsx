@@ -75,8 +75,7 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
             {format(new Date(tweetData.created_at), "PPP")}
           </p>
         </div>
-        <p>{tweetText}</p>
-
+        <p className="my-4">{tweetText}</p>
         <div className="flex flex-row space-x-4">
           <div className="flex space-x-2">
             <Retweet />

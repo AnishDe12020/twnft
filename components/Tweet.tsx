@@ -126,6 +126,9 @@ const Tweet = ({
           )}
         </div>
       </div>
+      <p className="mt-4 text-sm text-gray-300">
+        Created at {format(new Date(), "PPpp")}
+      </p>
     </div>
   );
 };

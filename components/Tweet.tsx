@@ -68,19 +68,21 @@ const Tweet = ({
       } rounded-2xl ${isQuoteTweet ? "bg-[#404040]" : "bg-secondary"}`}
     >
       <div className="flex flex-col items-start justify-start">
-        <div className="flex col">
-          <img
-            src={tweetIncludes.users[0].profile_image_url}
-            alt={`{Profile picture for ${tweetIncludes.users[0].username}`}
-            className="w-12 h-12 rounded-full"
-          />
-          <div className="flex flex-col justify-start ml-4">
-            <p>{tweetIncludes.users[0].name}</p>
-            <p className="mt-1 text-gray-300">
-              @{tweetIncludes.users[0].username}
-            </p>
+        <div className="flex items-center justify-between w-full">
+          <div className="flex">
+            <img
+              src={tweetIncludes.users[0].profile_image_url}
+              alt={`{Profile picture for ${tweetIncludes.users[0].username}`}
+              className="w-12 h-12 rounded-full"
+            />
+            <div className="flex flex-col justify-start ml-4">
+              <p>{tweetIncludes.users[0].name}</p>
+              <p className="mt-1 text-gray-300">
+                @{tweetIncludes.users[0].username}
+              </p>
+            </div>
           </div>
-          <p className="ml-4 text-gray-300">
+          <p className="mr-8 text-gray-300">
             {format(new Date(tweetData.created_at), "PPP")}
           </p>
         </div>

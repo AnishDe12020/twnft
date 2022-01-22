@@ -5,8 +5,28 @@ interface IEntitiesMentions {
   id: string;
 }
 
+interface IEntitiesURLImages {
+  url: string;
+  width: number;
+  height: number;
+}
+
+export interface IEntitiesURLs {
+  start: number;
+  end: number;
+  url: string;
+  expanded_url: string;
+  display_url: string;
+  images: IEntitiesURLImages[];
+  status: number;
+  title: string;
+  description: string;
+  unwound_url: string;
+}
+
 interface IEntities {
   mentions?: IEntitiesMentions[];
+  urls: IEntitiesURLs[];
 }
 
 interface IPublicMetrics {
@@ -26,7 +46,7 @@ export interface ITweetData {
   author_id: string;
   text: string;
   id: string;
-  enetities?: IEntities;
+  entities?: IEntities;
   public_metrics: IPublicMetrics;
   referenced_tweets: IReferencedTweets[];
   in_reply_to_user_id?: string;

@@ -1,6 +1,10 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import ITweetObject, { ITweetIncludes, ITweetData } from "../types/TweetData";
+import ITweetObject, {
+  ITweetIncludes,
+  ITweetData,
+  IEntitiesURLs,
+} from "../types/TweetData";
 import { Like, Reply, Retweet } from "./Icons";
 
 import twttr from "twitter-text";
@@ -12,6 +16,7 @@ interface TweetProps {
 
 const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
   const [quoteTweet, setQuoteTweet] = useState<ITweetObject>();
+  const [tweetText, setTweetText] = useState<string>(tweetData.text);
 
   useEffect(() => {
     const fetchQuoteTweet = async () => {
@@ -31,12 +36,21 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
   }, [tweetData?.referenced_tweets]);
   // console.log(tweetIncludes);
 
-  console.log(
-    "AutoLink",
-    twttr.autoLink(tweetData.text, {
-      urlEntities: tweetIncludes.urls,
-    })
-  );
+  useEffect(() => {
+    const parseText = (text: string, urlEntities: IEntitiesURLs[]) => {
+      for (const url of urlEntities) {
+        text = text.replace(url.url, url.display_url);
+      }
+
+      console.log(text);
+
+      return text;
+    };
+
+    if (tweetData?.entities?.urls) {
+      setTweetText(parseText(tweetData.text, tweetData?.entities?.urls));
+    }
+  }, [tweetData]);
 
   return (
     <div className="flex flex-col p-8 text-white w-[40rem] rounded-2xl bg-secondary">
@@ -57,7 +71,8 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
             {format(new Date(tweetData.created_at), "PPP")}
           </p>
         </div>
-        <p>{tweetData.text}</p>
+        <p>{tweetText}</p>
+
         <div className="flex flex-row space-x-4">
           <div className="flex space-x-2">
             <Retweet />
@@ -73,7 +88,7 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
           </div>
         </div>
         <div
-          className="grid h-full gap-2 mt-8"
+          className="grid h-full gap-3 mt-8"
           style={{
             gridTemplateColumns: "repeat(auto-fit, minmax(12rem, 1fr))",
           }}

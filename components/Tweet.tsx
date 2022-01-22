@@ -39,7 +39,11 @@ const Tweet = ({ tweetData, tweetIncludes }: TweetProps): JSX.Element => {
   useEffect(() => {
     const parseText = (text: string, urlEntities: IEntitiesURLs[]) => {
       for (const url of urlEntities) {
-        text = text.replace(url.url, url.display_url);
+        if (!url.display_url.startsWith("pic.")) {
+          text = text.replace(url.url, url.expanded_url);
+        } else {
+          text = text.replace(url.url, "");
+        }
       }
 
       console.log(text);

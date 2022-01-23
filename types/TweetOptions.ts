@@ -1,4 +1,4 @@
-interface TweetOptions {
+interface ITweetOptions {
   likes: boolean;
   replies: boolean;
   retweets: boolean;
@@ -7,4 +7,4 @@ interface TweetOptions {
   media: boolean;
 }
 
-export default TweetOptions;
+export default ITweetOptions;

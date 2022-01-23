@@ -5,14 +5,14 @@ import ITweetObject, {
   ITweetData,
   IEntitiesURLs,
 } from "../types/TweetData";
-import TweetOptions from "../types/TweetOptions";
+import ITweetOptions from "../types/TweetOptions";
 import { Like, Reply, Retweet } from "./Icons";
 
 interface TweetProps {
   tweetData: ITweetData;
   tweetIncludes: ITweetIncludes;
   isQuoteTweet?: boolean;
-  tweetOptions: TweetOptions;
+  tweetOptions: ITweetOptions;
 }
 
 const Tweet = ({

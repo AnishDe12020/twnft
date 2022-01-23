@@ -121,7 +121,7 @@ const Tweet = ({
           <div
             className="grid items-center justify-center h-full gap-3 mt-8"
             style={{
-              gridTemplateColumns: "repeat(auto-fit, minmax(12rem, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(16rem, 1fr))",
             }}
           >
             {tweetIncludes.media?.map(media => (

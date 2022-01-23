@@ -25,6 +25,10 @@ const Tweet = ({
   const [tweetText, setTweetText] = useState<string>(tweetData.text);
 
   useEffect(() => {
+    setQuoteTweet(undefined);
+  }, []);
+
+  useEffect(() => {
     const fetchQuoteTweet = async () => {
       //   console.log(tweetData.referenced_tweets);
       if (tweetData.referenced_tweets?.[0].type === "quoted") {

@@ -64,56 +64,58 @@ const Tweet = ({
 
   return (
     <div
-      className={`flex flex-col p-8 text-white ${
+      className={`flex flex-col p-8 text-white justify-center ${
         isQuoteTweet ? "w-[40rem]" : "w-[44rem]"
       } rounded-2xl ${isQuoteTweet ? "bg-[#404040]" : "bg-secondary"}`}
     >
-      <div className="flex flex-col items-start justify-start">
-        <div className="flex items-center justify-between w-full">
-          <div className="flex">
-            <img
-              src={tweetIncludes.users[0].profile_image_url}
-              alt={`{Profile picture for ${tweetIncludes.users[0].username}`}
-              className="w-12 h-12 rounded-full"
-            />
-            <div className="flex flex-col justify-start ml-4">
-              <p>{tweetIncludes.users[0].name}</p>
-              <p className="mt-1 text-gray-300">
-                @{tweetIncludes.users[0].username}
-              </p>
+      <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-start justify-start">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex">
+              <img
+                src={tweetIncludes.users[0].profile_image_url}
+                alt={`{Profile picture for ${tweetIncludes.users[0].username}`}
+                className="w-12 h-12 rounded-full"
+              />
+              <div className="flex flex-col justify-start ml-4">
+                <p>{tweetIncludes.users[0].name}</p>
+                <p className="mt-1 text-gray-300">
+                  @{tweetIncludes.users[0].username}
+                </p>
+              </div>
             </div>
-          </div>
 
-          {tweetOptions.date && (
-            <p className="mr-8 text-gray-300">
-              {format(new Date(tweetData.created_at), "PPP")}
-            </p>
-          )}
-        </div>
-        <p className="my-4">{tweetText}</p>
-        <div className="flex flex-row space-x-6">
-          {tweetOptions.likes && (
-            <div className="flex space-x-2 text-red-400">
-              <Like />
-              <p>{tweetData.public_metrics.like_count}</p>
-            </div>
-          )}
-          {tweetOptions.retweets && (
-            <div className="flex space-x-2 text-green-400">
-              <Retweet />
-              <p>{tweetData.public_metrics.retweet_count}</p>
-            </div>
-          )}
-          {tweetOptions.replies && (
-            <div className="flex space-x-2 text-blue-400">
-              <Reply />
-              <p>{tweetData.public_metrics.reply_count}</p>
-            </div>
-          )}
+            {tweetOptions.date && (
+              <p className="mr-8 text-gray-300">
+                {format(new Date(tweetData.created_at), "PPP")}
+              </p>
+            )}
+          </div>
+          <p className="my-4">{tweetText}</p>
+          <div className="flex flex-row space-x-6">
+            {tweetOptions.likes && (
+              <div className="flex space-x-2 text-red-400">
+                <Like />
+                <p>{tweetData.public_metrics.like_count}</p>
+              </div>
+            )}
+            {tweetOptions.retweets && (
+              <div className="flex space-x-2 text-green-400">
+                <Retweet />
+                <p>{tweetData.public_metrics.retweet_count}</p>
+              </div>
+            )}
+            {tweetOptions.replies && (
+              <div className="flex space-x-2 text-blue-400">
+                <Reply />
+                <p>{tweetData.public_metrics.reply_count}</p>
+              </div>
+            )}
+          </div>
         </div>
         {tweetOptions.media && (
           <div
-            className="grid h-full gap-3 mt-8"
+            className="grid items-center justify-center h-full gap-3 mt-8"
             style={{
               gridTemplateColumns: "repeat(auto-fit, minmax(12rem, 1fr))",
             }}

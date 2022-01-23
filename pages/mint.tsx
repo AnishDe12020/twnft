@@ -6,9 +6,29 @@ import { Like, Reply, Retweet, Spinner } from "../components/Icons";
 import ITweetObject from "../types/TweetData";
 import Tweet from "../components/Tweet";
 import { HiArrowNarrowRight } from "react-icons/hi";
+import TweetOptions from "../types/TweetOptions";
+import TweetOption from "../components/TweetOption";
+import { HiCalendar, HiPhotograph } from "react-icons/hi";
+import { FaQuoteLeft } from "react-icons/fa";
 
 const MintPage: NextPage = () => {
   const [tweetData, setTweetData] = useState<ITweetObject>();
+  const [tweetOptions, setTweetOptions] = useState<TweetOptions>({
+    likes: true,
+    replies: true,
+    retweets: true,
+    date: true,
+    quoteTweet: true,
+    media: true,
+  });
+
+  const toggleTweetOption = (option: keyof TweetOptions) => {
+    setTweetOptions({
+      ...tweetOptions,
+      [option]: !tweetOptions[option],
+    });
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <Formik
@@ -47,8 +67,53 @@ const MintPage: NextPage = () => {
           <Tweet
             tweetData={tweetData.data}
             tweetIncludes={tweetData.includes}
+            tweetOptions={tweetOptions}
           />
         )}
+      </div>
+      <div className="fixed flex p-2 space-x-2 border-2 bottom-8 bg-secondary/60 backdrop-filter backdrop-blur-xl border-secondary rounded-xl">
+        <TweetOption
+          optionName="likes"
+          toggleTweetOption={toggleTweetOption}
+          tweetOptions={tweetOptions}
+        >
+          <Like className="w-6 h-6" />
+        </TweetOption>
+        <TweetOption
+          optionName="replies"
+          toggleTweetOption={toggleTweetOption}
+          tweetOptions={tweetOptions}
+        >
+          <Reply className="w-6 h-6" />
+        </TweetOption>
+        <TweetOption
+          optionName="retweets"
+          toggleTweetOption={toggleTweetOption}
+          tweetOptions={tweetOptions}
+        >
+          <Retweet className="w-6 h-6" />
+        </TweetOption>
+        <TweetOption
+          optionName="date"
+          toggleTweetOption={toggleTweetOption}
+          tweetOptions={tweetOptions}
+        >
+          <HiCalendar className="w-6 h-6" />
+        </TweetOption>
+        <TweetOption
+          optionName="quoteTweet"
+          toggleTweetOption={toggleTweetOption}
+          tweetOptions={tweetOptions}
+        >
+          <FaQuoteLeft className="w-6 h-6" />
+        </TweetOption>
+        <TweetOption
+          optionName="media"
+          toggleTweetOption={toggleTweetOption}
+          tweetOptions={tweetOptions}
+        >
+          <HiPhotograph className="w-6 h-6" />
+        </TweetOption>
       </div>
     </div>
   );

@@ -5,18 +5,21 @@ import ITweetObject, {
   ITweetData,
   IEntitiesURLs,
 } from "../types/TweetData";
+import TweetOptions from "../types/TweetOptions";
 import { Like, Reply, Retweet } from "./Icons";
 
 interface TweetProps {
   tweetData: ITweetData;
   tweetIncludes: ITweetIncludes;
   isQuoteTweet?: boolean;
+  tweetOptions: TweetOptions;
 }
 
 const Tweet = ({
   tweetData,
   tweetIncludes,
   isQuoteTweet,
+  tweetOptions,
 }: TweetProps): JSX.Element => {
   const [quoteTweet, setQuoteTweet] = useState<ITweetObject>();
   const [tweetText, setTweetText] = useState<string>(tweetData.text);
@@ -80,46 +83,58 @@ const Tweet = ({
               </p>
             </div>
           </div>
-          <p className="mr-8 text-gray-300">
-            {format(new Date(tweetData.created_at), "PPP")}
-          </p>
+
+          {tweetOptions.date && (
+            <p className="mr-8 text-gray-300">
+              {format(new Date(tweetData.created_at), "PPP")}
+            </p>
+          )}
         </div>
         <p className="my-4">{tweetText}</p>
         <div className="flex flex-row space-x-6">
-          <div className="flex space-x-2 text-red-400">
-            <Like />
-            <p>{tweetData.public_metrics.like_count}</p>
-          </div>
-          <div className="flex space-x-2 text-green-400">
-            <Retweet />
-            <p>{tweetData.public_metrics.retweet_count}</p>
-          </div>
-          <div className="flex space-x-2 text-blue-400">
-            <Reply />
-            <p>{tweetData.public_metrics.reply_count}</p>
-          </div>
+          {tweetOptions.likes && (
+            <div className="flex space-x-2 text-red-400">
+              <Like />
+              <p>{tweetData.public_metrics.like_count}</p>
+            </div>
+          )}
+          {tweetOptions.retweets && (
+            <div className="flex space-x-2 text-green-400">
+              <Retweet />
+              <p>{tweetData.public_metrics.retweet_count}</p>
+            </div>
+          )}
+          {tweetOptions.replies && (
+            <div className="flex space-x-2 text-blue-400">
+              <Reply />
+              <p>{tweetData.public_metrics.reply_count}</p>
+            </div>
+          )}
         </div>
-        <div
-          className="grid h-full gap-3 mt-8"
-          style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(12rem, 1fr))",
-          }}
-        >
-          {tweetIncludes.media?.map(media => (
-            <img
-              src={media.url}
-              alt={media.alt_text}
-              key={media.media_key}
-              className="max-w-48 rounded-2xl"
-            />
-          ))}
-        </div>
+        {tweetOptions.media && (
+          <div
+            className="grid h-full gap-3 mt-8"
+            style={{
+              gridTemplateColumns: "repeat(auto-fit, minmax(12rem, 1fr))",
+            }}
+          >
+            {tweetIncludes.media?.map(media => (
+              <img
+                src={media.url}
+                alt={media.alt_text}
+                key={media.media_key}
+                className="max-w-48 rounded-2xl"
+              />
+            ))}
+          </div>
+        )}
         <div className="mx-8">
-          {quoteTweet && !isQuoteTweet && (
+          {quoteTweet && !isQuoteTweet && tweetOptions.quoteTweet && (
             <Tweet
               isQuoteTweet
               tweetData={quoteTweet?.data}
               tweetIncludes={quoteTweet?.includes}
+              tweetOptions={tweetOptions}
             />
           )}
         </div>

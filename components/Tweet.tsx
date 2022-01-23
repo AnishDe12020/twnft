@@ -117,7 +117,7 @@ const Tweet = ({
             )}
           </div>
         </div>
-        {tweetOptions.media && (
+        {tweetOptions.media && tweetIncludes?.media?.length > 0 && (
           <div
             className="grid items-center justify-center h-full gap-3 mt-8"
             style={{
@@ -134,13 +134,15 @@ const Tweet = ({
             ))}
           </div>
         )}
-        {quoteTweet && !isQuoteTweet && (
-          <Tweet
-            isQuoteTweet
-            tweetData={quoteTweet?.data}
-            tweetIncludes={quoteTweet?.includes}
-            tweetOptions={tweetOptions}
-          />
+        {quoteTweet && !isQuoteTweet && tweetOptions.quoteTweet && (
+          <div className="mt-4">
+            <Tweet
+              isQuoteTweet
+              tweetData={quoteTweet?.data}
+              tweetIncludes={quoteTweet?.includes}
+              tweetOptions={tweetOptions}
+            />
+          </div>
         )}
       </div>
       {!isQuoteTweet && (

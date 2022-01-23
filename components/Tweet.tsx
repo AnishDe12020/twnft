@@ -131,19 +131,19 @@ const Tweet = ({
           </div>
         )}
         {quoteTweet && !isQuoteTweet && (
-          <div className="">
-            <Tweet
-              isQuoteTweet
-              tweetData={quoteTweet?.data}
-              tweetIncludes={quoteTweet?.includes}
-              tweetOptions={tweetOptions}
-            />
-          </div>
+          <Tweet
+            isQuoteTweet
+            tweetData={quoteTweet?.data}
+            tweetIncludes={quoteTweet?.includes}
+            tweetOptions={tweetOptions}
+          />
         )}
       </div>
-      <p className="mt-4 text-sm text-gray-300">
-        Created at {format(new Date(), "PPpp")}
-      </p>
+      {!isQuoteTweet && (
+        <p className="mt-4 text-sm text-gray-300">
+          Created at {format(new Date(), "PPpp")}
+        </p>
+      )}
     </div>
   );
 };

@@ -64,8 +64,8 @@ const Tweet = ({
 
   return (
     <div
-      className={`flex flex-col w-auto p-8 text-white mx-16 ${
-        quoteTweet ? "w-[44rem]" : "w-[40rem]"
+      className={`flex flex-col p-8 text-white ${
+        isQuoteTweet ? "w-[40rem]" : "w-[44rem]"
       } rounded-2xl ${isQuoteTweet ? "bg-[#404040]" : "bg-secondary"}`}
     >
       <div className="flex flex-col items-start justify-start">
@@ -128,16 +128,16 @@ const Tweet = ({
             ))}
           </div>
         )}
-        <div className="mx-8">
-          {quoteTweet && !isQuoteTweet && tweetOptions.quoteTweet && (
+        {quoteTweet && !isQuoteTweet && (
+          <div className="">
             <Tweet
               isQuoteTweet
               tweetData={quoteTweet?.data}
               tweetIncludes={quoteTweet?.includes}
               tweetOptions={tweetOptions}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
       <p className="mt-4 text-sm text-gray-300">
         Created at {format(new Date(), "PPpp")}

@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { HiClipboardCopy } from "react-icons/hi";
 import truncateWalletAddress from "../../utils/truncateWalletAddress";
 import { MetamaskLogo, WalletConnectLogo } from "../Icons";
+import { EthereumLogo } from "../Icons";
 
 const ThirdWebAuth = (): JSX.Element => {
   const [isOpen, toggleOpen] = useState<boolean>(false);
@@ -73,6 +74,24 @@ const ThirdWebAuth = (): JSX.Element => {
                         Login with WalletConnect
                       </button>
                     </>
+                  )}
+
+                  {address && chainId === 4 ? (
+                    <p className="flex items-center px-4 py-2 text-white rounded-lg bg-secondary">
+                      <EthereumLogo className="w-8 h-8 mr-8" />
+                      <span className="flex justify-between w-full">
+                        <span>{truncateWalletAddress(address)}</span>{" "}
+                        <span>{balance?.formatted} ETH</span>
+                      </span>
+                    </p>
+                  ) : (
+                    <button
+                      className="flex items-center px-4 py-2 text-white rounded-lg bg-secondary hover:opacity-60"
+                      onClick={() => switchNetwork(4)}
+                    >
+                      <EthereumLogo className="w-8 h-8 mr-2" />
+                      Switch to Rinkeby Test Network
+                    </button>
                   )}
 
                   {address && (

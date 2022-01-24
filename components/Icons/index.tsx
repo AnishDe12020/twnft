@@ -4,3 +4,4 @@ export { default as Reply } from "./Reply";
 export { default as Like } from "./Like";
 export { default as MetamaskLogo } from "./MetamaskLogo";
 export { default as WalletConnectLogo } from "./WalletConnectLogo";
+export { default as EthereumLogo } from "./EthereumLogo";

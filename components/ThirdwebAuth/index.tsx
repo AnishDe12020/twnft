@@ -27,7 +27,7 @@ const ThirdWebAuth = (): JSX.Element => {
         <span className="inline-block h-screen align-middle" aria-hidden="true">
           &#8203;
         </span>
-        <Dialog.Content className="fixed p-4 -mt-48 -ml-48 bg-secondary rounded-2xl top-1/2 left-1/2 h-96 w-96">
+        <Dialog.Content className="fixed p-4 -mt-48 -ml-48 duration-200 border-2 border-gray-600 shadow-lg bg-secondary/60 transiton backdrop-filter backdrop-blur-xl hover:border-opacity-60 rounded-2xl top-1/2 left-1/2 h-96 w-96">
           <Dialog.Title className="text-xl text-white">
             Connect Wallet
           </Dialog.Title>
@@ -35,7 +35,7 @@ const ThirdWebAuth = (): JSX.Element => {
             {!address && (
               <>
                 <button
-                  className="flex items-center px-4 py-2 text-lg text-white bg-gray-700 rounded-lg hover:opacity-60"
+                  className="flex items-center px-4 py-2 text-lg text-white rounded-lg bg-secondary hover:opacity-60"
                   onClick={() => {
                     connectWallet("injected");
                     console.log("metamask");
@@ -45,7 +45,7 @@ const ThirdWebAuth = (): JSX.Element => {
                   Login with Metamask
                 </button>
                 <button
-                  className="flex items-center px-4 py-2 text-lg text-white bg-gray-700 rounded-lg hover:opacity-60"
+                  className="flex items-center px-4 py-2 text-lg text-white rounded-lg bg-secondary hover:opacity-60"
                   onClick={() => connectWallet("walletconnect")}
                 >
                   <WalletConnectLogo className="w-8 h-8 mr-2" />
@@ -56,7 +56,7 @@ const ThirdWebAuth = (): JSX.Element => {
 
             {address && (
               <button
-                className="flex items-center px-3 py-2 space-x-2 text-white bg-gray-700 rounded-lg w-fit hover:opacity-60"
+                className="flex items-center px-3 py-2 space-x-2 text-white rounded-lg bg-secondary w-fit hover:opacity-60"
                 onClick={copyAddressToClipboard}
               >
                 <p>{truncateWalletAddress(address)}</p>{" "}

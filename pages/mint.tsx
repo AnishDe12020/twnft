@@ -11,6 +11,7 @@ import TweetOption from "../components/TweetOption";
 import { HiCalendar, HiPhotograph } from "react-icons/hi";
 import { FaQuoteLeft } from "react-icons/fa";
 import TweetOptionButtons from "../components/TweetOptionButtons";
+import ThirdWebAuth from "../components/ThirdwebAuth";
 
 const MintPage: NextPage = () => {
   const [tweetData, setTweetData] = useState<ITweetObject>();
@@ -77,6 +78,7 @@ const MintPage: NextPage = () => {
           toggleTweetOption={toggleTweetOption}
           tweetOptions={tweetOptions}
         />
+        <ThirdWebAuth />
       </div>
     </div>
   );

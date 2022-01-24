@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
+import { Toaster } from "react-hot-toast";
 const connectors = {
   injected: {},
   walletconnect: {},
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       connectors={connectors}
       supportedChainIds={supportedChainIds}
     >
+      <Toaster />
       <Component {...pageProps} />
     </ThirdwebWeb3Provider>
   );

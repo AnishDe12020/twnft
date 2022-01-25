@@ -68,7 +68,25 @@ const ThirdWebAuth = (): JSX.Element => {
                 forceMount
               >
                 <div className="flex flex-col mx-4 mt-8 space-y-4">
-                  {!address && (
+                  {address ? (
+                    chainId === 4 ? (
+                      <p className="flex items-center px-4 py-2 text-white rounded-lg bg-secondary">
+                        <EthereumLogo className="w-8 h-8 mr-8" />
+                        <span className="flex justify-between w-full">
+                          <span>{truncateWalletAddress(address)}</span>{" "}
+                          <span>{balance?.formatted} ETH</span>
+                        </span>
+                      </p>
+                    ) : (
+                      <button
+                        className="flex items-center px-4 py-2 text-white rounded-lg bg-secondary hover:opacity-60"
+                        onClick={() => switchNetwork(4)}
+                      >
+                        <EthereumLogo className="w-8 h-8 mr-2" />
+                        Switch to Rinkeby Test Network
+                      </button>
+                    )
+                  ) : (
                     <>
                       <button
                         className="flex items-center px-4 py-2 text-lg text-white rounded-lg bg-secondary hover:opacity-60"
@@ -81,31 +99,20 @@ const ThirdWebAuth = (): JSX.Element => {
                         Login with Metamask
                       </button>
                       <button
-                        className="flex items-center px-4 py-2 text-lg text-white rounded-lg bg-secondary hover:opacity-60"
-                        onClick={() => connectWallet("walletconnect")}
+                        className="relative flex items-center px-4 py-2 text-lg text-white rounded-lg cursor-not-allowed bg-secondary bg-opacity-60 text-opacity-60"
+                        onClick={() => {
+                          connectWallet("walletconnect");
+                          switchNetwork(4);
+                        }}
+                        disabled
                       >
-                        <WalletConnectLogo className="w-8 h-8 mr-2" />
+                        <p className="absolute p-1 text-xs text-white rounded-full -top-2 -right-6 bg-secondary/60">
+                          Coming Soon
+                        </p>
+                        <WalletConnectLogo className="w-8 h-8 mr-2 opacity-60" />
                         Login with WalletConnect
                       </button>
                     </>
-                  )}
-
-                  {address && chainId === 4 ? (
-                    <p className="flex items-center px-4 py-2 text-white rounded-lg bg-secondary">
-                      <EthereumLogo className="w-8 h-8 mr-8" />
-                      <span className="flex justify-between w-full">
-                        <span>{truncateWalletAddress(address)}</span>{" "}
-                        <span>{balance?.formatted} ETH</span>
-                      </span>
-                    </p>
-                  ) : (
-                    <button
-                      className="flex items-center px-4 py-2 text-white rounded-lg bg-secondary hover:opacity-60"
-                      onClick={() => switchNetwork(4)}
-                    >
-                      <EthereumLogo className="w-8 h-8 mr-2" />
-                      Switch to Rinkeby Test Network
-                    </button>
                   )}
 
                   {address && (

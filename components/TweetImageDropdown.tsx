@@ -21,8 +21,8 @@ const TweetImageDropdown = ({
         Export
       </DropdownMenu.Trigger>
 
-      {isOpen && (
-        <AnimatePresence>
+      <AnimatePresence>
+        {isOpen && (
           <DropdownMenu.Content
             asChild
             forceMount
@@ -37,7 +37,7 @@ const TweetImageDropdown = ({
                 scaleY: 0.6,
               }}
               animate={{ opacity: 1, translateY: 0, scaleX: 1, scaleY: 1 }}
-              exit={{ opacity: 0.6, translateY: 8, scaleX: 0.8, scaleY: 0.6 }}
+              exit={{ opacity: 0, translateY: 8, scaleX: 0.8, scaleY: 0.6 }}
             >
               <DropdownMenu.Item
                 onSelect={() =>
@@ -61,8 +61,8 @@ const TweetImageDropdown = ({
               </DropdownMenu.Item>
             </motion.div>
           </DropdownMenu.Content>
-        </AnimatePresence>
-      )}
+        )}
+      </AnimatePresence>
     </DropdownMenu.Root>
   );
 };

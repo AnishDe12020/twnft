@@ -1,8 +1,18 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { RefObject, useState } from "react";
+import {
+  exportComponentAsJPEG,
+  exportComponentAsPNG,
+} from "react-component-export-image";
 
-const TweetImageDropdown = (): JSX.Element => {
+interface TweetImageDropdownProps {
+  tweetRef: RefObject<HTMLDivElement>;
+}
+
+const TweetImageDropdown = ({
+  tweetRef,
+}: TweetImageDropdownProps): JSX.Element => {
   const [isOpen, setOpen] = useState<boolean>(false);
 
   return (
@@ -30,13 +40,21 @@ const TweetImageDropdown = (): JSX.Element => {
               exit={{ opacity: 0.6, translateY: 8, scaleX: 0.8, scaleY: 0.6 }}
             >
               <DropdownMenu.Item
-                onSelect={() => console.log("Export as PNG")}
+                onSelect={() =>
+                  exportComponentAsPNG(tweetRef, {
+                    html2CanvasOptions: { backgroundColor: null },
+                  })
+                }
                 className="px-3 py-2 outline-none cursor-pointer rounded-xl focus:bg-accent"
               >
                 Export As PNG
               </DropdownMenu.Item>
               <DropdownMenu.Item
-                onSelect={() => console.log("Export as JPEG")}
+                onSelect={() =>
+                  exportComponentAsJPEG(tweetRef, {
+                    html2CanvasOptions: { backgroundColor: null },
+                  })
+                }
                 className="px-3 py-2 outline-none cursor-pointer rounded-xl focus:bg-accent"
               >
                 Export As JPEG

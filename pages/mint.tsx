@@ -12,7 +12,12 @@ import { HiCalendar, HiPhotograph } from "react-icons/hi";
 import { FaQuoteLeft } from "react-icons/fa";
 import TweetOptionButtons from "../components/TweetOptionButtons";
 import ThirdWebAuth from "../components/ThirdwebAuth";
-import TweetImageDropdown from "../components/TweetImageDropdown";
+import dynamic from "next/dynamic";
+
+const TweetImageDropdown = dynamic(
+  () => import("../components/TweetImageDropdown"),
+  { ssr: false }
+);
 
 const MintPage: NextPage = () => {
   const [tweetData, setTweetData] = useState<ITweetObject>();
@@ -32,7 +37,7 @@ const MintPage: NextPage = () => {
     });
   };
 
-  const tweetRef = useRef(null);
+  const tweetRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -83,7 +88,7 @@ const MintPage: NextPage = () => {
           toggleTweetOption={toggleTweetOption}
           tweetOptions={tweetOptions}
         />
-        <TweetImageDropdown />
+        <TweetImageDropdown tweetRef={tweetRef} />
         <ThirdWebAuth />
       </div>
     </div>

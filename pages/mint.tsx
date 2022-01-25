@@ -46,7 +46,7 @@ const MintPage: NextPage = () => {
         }}
       >
         {({ isSubmitting }) => (
-          <Form className="fixed flex items-center px-4 py-2 transition duration-200 border-2 border-gray-600 shadow-lg top-8 px-w rounded-xl bg-secondary/60 backdrop-filter backdrop-blur-xl focus-within:border-accent hover:border-opacity-60 focus-within:hover:border-accent">
+          <Form className="fixed flex items-center px-4 py-2 transition duration-200 border-2 border-gray-600 shadow-lg top-8 px-w rounded-xl bg-secondary/10 backdrop-filter backdrop-blur-md focus-within:border-accent hover:border-opacity-60 focus-within:hover:border-accent">
             <Field
               type="text"
               name="link"
@@ -73,7 +73,7 @@ const MintPage: NextPage = () => {
           />
         )}
       </div>
-      <div className="fixed flex p-2 space-x-2 transition duration-200 border-2 border-gray-600 shadow-lg hover:border-opacity-60 bottom-8 bg-secondary/60 backdrop-filter backdrop-blur-xl rounded-xl">
+      <div className="fixed flex p-2 space-x-2 transition duration-200 border-2 border-gray-600 shadow-lg hover:border-opacity-60 bottom-8 bg-secondary/10 backdrop-filter backdrop-blur-md rounded-xl">
         <TweetOptionButtons
           toggleTweetOption={toggleTweetOption}
           tweetOptions={tweetOptions}

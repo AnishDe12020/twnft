@@ -6,7 +6,7 @@ import ITweetObject, {
   IEntitiesURLs,
 } from "../types/TweetData";
 import ITweetOptions from "../types/TweetOptions";
-import { Like, Reply, Retweet } from "./Icons";
+import { Like, Logo, Reply, Retweet } from "./Icons";
 
 interface TweetProps {
   tweetData: ITweetData;
@@ -146,9 +146,16 @@ const Tweet = ({
         )}
       </div>
       {!isQuoteTweet && (
-        <p className="mt-4 text-sm text-gray-300">
-          Created at {format(new Date(), "PPpp")}
-        </p>
+        <div className="flex items-start justify-between mx-4 mt-4">
+          <p className="mt-4 text-sm text-gray-300">
+            Created at {format(new Date(), "PPpp")}
+          </p>
+          <div className="flex items-center space-x-1 text-sm rounded-full bg-secondary">
+            <p>Made with</p>
+            <Logo className="w-12 h-12" />
+          </div>
+          {/* <p>Made with TwNFT</p> */}
+        </div>
       )}
     </div>
   );

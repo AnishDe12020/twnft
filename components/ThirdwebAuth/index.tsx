@@ -23,7 +23,7 @@ const ThirdWebAuth = (): JSX.Element => {
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={toggleOpen}>
-      <Dialog.Trigger className="px-4 py-2 text-white rounded-lg bg-gradient-to-r from-blue-700 to-pink-700">
+      <Dialog.Trigger className="relative z-10 px-4 py-2 text-white transition-all duration-1000 rounded-lg bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg">
         Connect Wallet
       </Dialog.Trigger>
       <AnimatePresence>

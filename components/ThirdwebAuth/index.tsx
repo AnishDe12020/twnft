@@ -23,7 +23,9 @@ const ThirdWebAuth = (): JSX.Element => {
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={toggleOpen}>
-      <Dialog.Trigger>Connect Wallet</Dialog.Trigger>
+      <Dialog.Trigger className="px-4 py-2 text-white rounded-lg bg-gradient-to-r from-blue-700 to-pink-700">
+        Connect Wallet
+      </Dialog.Trigger>
       <AnimatePresence>
         {isOpen && (
           <Dialog.Portal forceMount>

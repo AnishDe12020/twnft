@@ -47,12 +47,9 @@ const ThirdWebAuth = (): JSX.Element => {
               className="fixed -mt-48 -ml-48 top-1/2 left-1/2 w-96 h-96"
             >
               <Dialog.Content
-                className="p-4 transition duration-200 border-2 border-gray-600 shadow-lg bg-secondary/60 transiton backdrop-filter backdrop-blur-xl hover:border-opacity-60 rounded-2xl"
+                className="p-4 transition duration-200 border-2 border-gray-600 shadow-lg bg-secondary/40 transiton backdrop-filter backdrop-blur-xl hover:border-opacity-60 rounded-2xl"
                 forceMount
               >
-                <Dialog.Title className="text-xl text-white">
-                  Connect Wallet
-                </Dialog.Title>
                 <div className="flex flex-col mx-4 mt-8 space-y-4">
                   {!address && (
                     <>

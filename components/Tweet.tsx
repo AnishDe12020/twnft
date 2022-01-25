@@ -154,7 +154,6 @@ const Tweet = ({
             <p>Made with</p>
             <Logo className="w-12 h-12" />
           </div>
-          {/* <p>Made with TwNFT</p> */}
         </div>
       )}
     </div>

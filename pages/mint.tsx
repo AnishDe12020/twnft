@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { format, formatISO } from "date-fns";
 import { Like, Reply, Retweet, Spinner } from "../components/Icons";
@@ -12,6 +12,7 @@ import { HiCalendar, HiPhotograph } from "react-icons/hi";
 import { FaQuoteLeft } from "react-icons/fa";
 import TweetOptionButtons from "../components/TweetOptionButtons";
 import ThirdWebAuth from "../components/ThirdwebAuth";
+import TweetImageDropdown from "../components/TweetImageDropdown";
 
 const MintPage: NextPage = () => {
   const [tweetData, setTweetData] = useState<ITweetObject>();
@@ -30,6 +31,8 @@ const MintPage: NextPage = () => {
       [option]: !tweetOptions[option],
     });
   };
+
+  const tweetRef = useRef(null);
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -66,11 +69,13 @@ const MintPage: NextPage = () => {
       </Formik>
       <div className="mt-32 mb-16">
         {tweetData && (
-          <Tweet
-            tweetData={tweetData.data}
-            tweetIncludes={tweetData.includes}
-            tweetOptions={tweetOptions}
-          />
+          <div className="bg-transparent" ref={tweetRef}>
+            <Tweet
+              tweetData={tweetData.data}
+              tweetIncludes={tweetData.includes}
+              tweetOptions={tweetOptions}
+            />
+          </div>
         )}
       </div>
       <div className="fixed flex p-2 space-x-2 transition duration-200 border-2 border-gray-600 shadow-lg hover:border-opacity-60 bottom-8 bg-secondary/10 backdrop-filter backdrop-blur-md rounded-xl">
@@ -78,6 +83,7 @@ const MintPage: NextPage = () => {
           toggleTweetOption={toggleTweetOption}
           tweetOptions={tweetOptions}
         />
+        <TweetImageDropdown />
         <ThirdWebAuth />
       </div>
     </div>

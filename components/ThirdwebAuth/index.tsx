@@ -23,9 +23,24 @@ const ThirdWebAuth = (): JSX.Element => {
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={toggleOpen}>
-      <Dialog.Trigger className="relative z-10 px-4 py-2 text-white rounded-lg bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg">
-        Connect Wallet
-      </Dialog.Trigger>
+      {address ? (
+        chainId === 4 ? (
+          <button className="relative z-10 px-4 py-2 text-white rounded-lg bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg">
+            Mint NFT
+          </button>
+        ) : (
+          <button
+            onClick={() => switchNetwork(4)}
+            className="relative z-10 px-4 py-2 text-white rounded-lg bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg"
+          >
+            Switch to Rinkeby Test Network
+          </button>
+        )
+      ) : (
+        <Dialog.Trigger className="relative z-10 px-4 py-2 text-white rounded-lg bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg">
+          Connect Wallet
+        </Dialog.Trigger>
+      )}
       <AnimatePresence>
         {isOpen && (
           <Dialog.Portal forceMount>

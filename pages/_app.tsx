@@ -15,7 +15,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       connectors={connectors}
       supportedChainIds={supportedChainIds}
     >
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          style: { backgroundColor: "#333333", color: "#ffffff" },
+        }}
+      />
       <Component {...pageProps} />
     </ThirdwebWeb3Provider>
   );

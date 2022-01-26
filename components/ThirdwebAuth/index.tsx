@@ -16,9 +16,7 @@ const ThirdWebAuth = (): JSX.Element => {
   const copyAddressToClipboard = (): void => {
     if (!address) return;
     navigator.clipboard.writeText(address);
-    toast.success("Address copied to clipboard", {
-      style: { backgroundColor: "#333333", color: "#ffffff" },
-    });
+    toast.success("Address copied to clipboard");
   };
 
   return (

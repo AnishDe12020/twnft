@@ -16,9 +16,9 @@
     "firebase": "^9.6.3",
     "formik": "^2.2.9",
     "framer-motion": "^6.2.1",
+    "html2canvas": "1.0.0-rc.7",
     "next": "12.0.8",
     "react": "17.0.2",
-    "react-component-export-image": "^1.0.6",
     "react-dom": "17.0.2",
     "react-hot-toast": "^2.2.0",
     "react-icons": "^4.3.1"

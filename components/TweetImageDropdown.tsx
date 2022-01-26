@@ -1,10 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { AnimatePresence, motion } from "framer-motion";
-import { RefObject, useState } from "react";
-import {
-  exportComponentAsJPEG,
-  exportComponentAsPNG,
-} from "react-component-export-image";
+import html2canvas from "html2canvas";
+import React, { RefObject, useState } from "react";
 
 interface TweetImageDropdownProps {
   tweetRef: RefObject<HTMLDivElement>;
@@ -41,9 +38,22 @@ const TweetImageDropdown = ({
             >
               <DropdownMenu.Item
                 onSelect={() =>
-                  exportComponentAsPNG(tweetRef, {
-                    html2CanvasOptions: { backgroundColor: null },
+                  html2canvas(tweetRef.current as HTMLDivElement, {
+                    backgroundColor: null,
+                    useCORS: true,
+                    scrollY: -window.scrollY,
                   })
+                    .then(canvas => {
+                      canvas.style.display = "none";
+                      const image = canvas.toDataURL("image/png", 1.0);
+                      const link = document.createElement("a");
+                      link.href = image;
+                      link.download = "tweet.png";
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    })
+                    .catch(err => console.error(err))
                 }
                 className="px-3 py-2 outline-none cursor-pointer rounded-xl focus:bg-accent"
               >
@@ -51,9 +61,20 @@ const TweetImageDropdown = ({
               </DropdownMenu.Item>
               <DropdownMenu.Item
                 onSelect={() =>
-                  exportComponentAsJPEG(tweetRef, {
-                    html2CanvasOptions: { backgroundColor: null },
+                  html2canvas(tweetRef.current as HTMLDivElement, {
+                    backgroundColor: null,
+                    useCORS: true,
+                    scrollY: -window.scrollY,
                   })
+                    .then(canvas => {
+                      canvas.style.display = "none";
+                      const image = canvas.toDataURL("image/jpeg");
+                      const a = document.createElement("a");
+                      a.setAttribute("download", "tweet.jpeg");
+                      a.setAttribute("href", image);
+                      a.click();
+                    })
+                    .catch(err => console.error(err))
                 }
                 className="px-3 py-2 outline-none cursor-pointer rounded-xl focus:bg-accent"
               >

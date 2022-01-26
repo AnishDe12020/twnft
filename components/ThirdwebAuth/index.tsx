@@ -7,6 +7,7 @@ import { HiClipboardCopy } from "react-icons/hi";
 import truncateWalletAddress from "../../utils/truncateWalletAddress";
 import { MetamaskLogo, WalletConnectLogo } from "../Icons";
 import { EthereumLogo } from "../Icons";
+import MintNFTModal from "../MintNFTModal";
 
 const ThirdWebAuth = (): JSX.Element => {
   const [isOpen, toggleOpen] = useState<boolean>(false);
@@ -23,9 +24,7 @@ const ThirdWebAuth = (): JSX.Element => {
     <Dialog.Root open={isOpen} onOpenChange={toggleOpen}>
       {address ? (
         chainId === 4 ? (
-          <button className="relative z-10 px-4 py-2 text-white rounded-lg bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg">
-            Mint NFT
-          </button>
+          <MintNFTModal />
         ) : (
           <button
             onClick={() => switchNetwork(4)}
@@ -43,7 +42,7 @@ const ThirdWebAuth = (): JSX.Element => {
         {isOpen && (
           <Dialog.Portal forceMount>
             <Dialog.Overlay
-              className="fixed bg-primary/50 backdrop-blue-lg"
+              className="fixed bg-primary/50 backdrop-blur-lg"
               forceMount
             >
               <motion.div

@@ -1,14 +1,16 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import useTweetUrl from "../hooks/useTweetUrl";
 import useUser from "../hooks/useUser";
 
 const MintNFTModal = () => {
   const [isOpen, toggleOpen] = useState<boolean>(false);
   const { user } = useUser();
+  const tweetUrl = useTweetUrl();
 
   const mintNFT = async () => {
-    const res = await fetch("/api/mint", {
+    const res = await fetch(`/api/mint?tweetUrl=${tweetUrl}`, {
       headers: {
         authorization: await user?.getIdToken(),
       } as HeadersInit,

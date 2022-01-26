@@ -2,6 +2,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { AnimatePresence, motion } from "framer-motion";
 import html2canvas from "html2canvas";
 import React, { RefObject, useState } from "react";
+import toast from "react-hot-toast";
 
 interface TweetImageDropdownProps {
   tweetRef: RefObject<HTMLDivElement>;
@@ -79,6 +80,40 @@ const TweetImageDropdown = ({
                 className="px-3 py-2 outline-none cursor-pointer rounded-xl focus:bg-accent"
               >
                 Export As JPEG
+              </DropdownMenu.Item>
+              <DropdownMenu.Item
+                onSelect={() =>
+                  html2canvas(tweetRef.current as HTMLDivElement, {
+                    backgroundColor: null,
+                    useCORS: true,
+                    scrollY: -window.scrollY,
+                  })
+                    .then(canvas => {
+                      canvas.style.display = "none";
+                      canvas.toBlob(blob => {
+                        navigator.clipboard
+                          .write([
+                            new ClipboardItem(
+                              Object.defineProperty({}, (blob as Blob).type, {
+                                value: blob,
+                                enumerable: true,
+                              })
+                            ),
+                          ])
+                          .then(() => {
+                            toast.success("Copied to clipboard!");
+                          })
+                          .catch(err => {
+                            console.error(err);
+                            toast.error("Failed to copy to clipboard!");
+                          });
+                      });
+                    })
+                    .catch(err => console.error(err))
+                }
+                className="px-3 py-2 outline-none cursor-pointer rounded-xl focus:bg-accent"
+              >
+                Copy to Clipboard
               </DropdownMenu.Item>
             </motion.div>
           </DropdownMenu.Content>

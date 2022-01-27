@@ -47,55 +47,64 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     //   process.env.NEXT_PUBLIC_NFT_MODULE_ADDRESS as string
     // );
 
-    const reqBody = JSON.parse(req.body as string);
-    const nftTweetData = reqBody.tweetData;
+    const tweetRef = db.collection("nft").doc(tweetId);
+    const tweetDoc = await tweetRef.get();
 
-    const nftMedatada = {
-      name: reqBody.name,
-      description: reqBody.description || nftTweetData.data.text,
-      image: reqBody.ipfsHash,
-      attributes: [
-        {
-          display_type: "date",
-          trait_type: "date",
-          value: Math.floor(
-            new Date(nftTweetData.data.created_at).getTime() / 1000
-          ),
-        },
-        {
-          display_type: "text",
-          trait_type: "Author Name",
-          value: nftTweetData.includes.users[0].name,
-        },
-        {
-          display_type: "text",
-          trait_type: "Author Username",
-          value: nftTweetData.includes.users[0].username,
-        },
-        {
-          display_type: "text",
-          trait_type: "content",
-          value: nftTweetData.data.text,
-        },
-        {
-          display_type: "text",
-          trait_type: "Tweet URL",
-          value: tweetUrl,
-        },
-        {
-          display_type: "text",
-          trait_type: "Tweet ID",
-          value: tweetId,
-        },
-      ],
-    };
+    if (!tweetDoc.exists) {
+      const reqBody = JSON.parse(req.body as string);
+      const nftTweetData = reqBody.tweetData;
 
-    const nftCollectionRef = db.collection("nft");
-    const firebaseRes = await nftCollectionRef.doc(tweetId).set(nftMedatada);
+      const nftMedatada = {
+        name: reqBody.name,
+        description: reqBody.description || nftTweetData.data.text,
+        image: reqBody.ipfsHash,
+        attributes: [
+          {
+            display_type: "date",
+            trait_type: "date",
+            value: Math.floor(
+              new Date(nftTweetData.data.created_at).getTime() / 1000
+            ),
+          },
+          {
+            display_type: "text",
+            trait_type: "Author Name",
+            value: nftTweetData.includes.users[0].name,
+          },
+          {
+            display_type: "text",
+            trait_type: "Author Username",
+            value: nftTweetData.includes.users[0].username,
+          },
+          {
+            display_type: "text",
+            trait_type: "content",
+            value: nftTweetData.data.text,
+          },
+          {
+            display_type: "text",
+            trait_type: "Tweet URL",
+            value: tweetUrl,
+          },
+          {
+            display_type: "text",
+            trait_type: "Tweet ID",
+            value: tweetId,
+          },
+        ],
+      };
 
-    console.log(firebaseRes);
+      const nftCollectionRef = db.collection("nft");
+      const firebaseRes = await nftCollectionRef
+        .doc(tweetId)
+        .set({ ...nftMedatada, created_date: new Date() });
 
-    res.send({ data: JSON.parse(req.body) });
+      console.log(firebaseRes);
+
+      res.send({ data: JSON.parse(req.body) });
+    } else {
+      res.send({ data: { error: "Tweet NFT has already been minted!!!" } });
+    }
 
     // nftModule.generateSignature({
     // 	metadata: {

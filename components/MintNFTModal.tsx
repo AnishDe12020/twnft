@@ -1,4 +1,5 @@
 import { uploadToIPFS } from "@3rdweb/sdk";
+import FileOrBuffer from "@3rdweb/sdk/dist/types/FileOrBuffer";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ref } from "firebase/storage";
 import { Field, Form, Formik } from "formik";
@@ -15,7 +16,7 @@ const MintNFTModal = () => {
   const { tweetUrl, tweetData, tweetRef } = useTweetUrl();
 
   const mintNFT = async (name: string, description?: string) => {
-    const canvas = html2canvas(tweetRef?.current as HTMLDivElement, {
+    html2canvas(tweetRef?.current as HTMLDivElement, {
       backgroundColor: null,
       useCORS: true,
       scrollY: -window.scrollY,
@@ -23,7 +24,7 @@ const MintNFTModal = () => {
       canvas.style.display = "none";
       canvas.toBlob(blob => {
         // const nftRef = ref(storage);
-        uploadToIPFS(blob).then(async hash => {
+        uploadToIPFS(blob as FileOrBuffer).then(async hash => {
           const ipfsHash = hash;
           console.log(ipfsHash);
           const res = await fetch(
@@ -45,8 +46,8 @@ const MintNFTModal = () => {
 
           const { error, data } = await res.json();
           if (error === "tweetMinted") {
-            setError("Tweet has already minted");
-            console.log("Tweet has already minted");
+            setError("Tweet has been already minted");
+            console.log("Tweet has been already minted");
           } else if (error === "notTweetOwner") {
             setError("You can only mint tweets that you own");
             console.log("You can only mint tweets that you own");
@@ -96,28 +97,50 @@ const MintNFTModal = () => {
                       }}
                     >
                       {({ isSubmitting }) => (
-                        <Form>
-                          <div>
-                            <label htmlFor="name">NFT Name</label>
-                            <Field type="text" name="name" id="name" />
-                          </div>
-                          <div>
-                            <label htmlFor="description">NFT Description</label>
-                            <p>Tweet Content will be used if left blank</p>
+                        <Form className="mx-4">
+                          <div className="mt-6">
+                            <label
+                              className="text-lg font-semibold text-white"
+                              htmlFor="name"
+                            >
+                              NFT Name
+                            </label>
                             <Field
+                              className="w-64 mt-4 border-2 rounded-xl border-secondary hover:border-opacity-60"
+                              type="text"
+                              name="name"
+                              id="name"
+                            />
+                          </div>
+                          <div className="mt-6">
+                            <label
+                              className="text-lg font-semibold text-white"
+                              htmlFor="description"
+                            >
+                              NFT Description
+                              <p className="mt-2 text-sm font-normal text-gray-300">
+                                Tweet Content will be used if left blank
+                              </p>
+                            </label>
+                            <Field
+                              as="textarea"
+                              className="mt-4 border-2 rounded-xl border-secondary"
                               type="text"
                               name="description"
                               id="description"
                             />
                           </div>
-                          <button type="submit" className="text-white">
+                          <button
+                            type="submit"
+                            className="relative z-10 px-4 py-2 mt-4 text-white rounded-lg bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg"
+                          >
                             Mint NFT
                           </button>
                         </Form>
                       )}
                     </Formik>
                     {errorMessage && (
-                      <p className="mt-4 text-red-500 text-md">
+                      <p className="px-3 py-2 mx-4 mt-4 text-center text-white bg-red-500 rounded-xl text-md">
                         {errorMessage}
                       </p>
                     )}

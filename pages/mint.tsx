@@ -13,6 +13,7 @@ import { FaQuoteLeft } from "react-icons/fa";
 import TweetOptionButtons from "../components/TweetOptionButtons";
 import ThirdWebAuth from "../components/ThirdwebAuth";
 import dynamic from "next/dynamic";
+import * as Yup from "yup";
 
 const TweetImageDropdown = dynamic(
   () => import("../components/TweetImageDropdown"),
@@ -23,6 +24,14 @@ export const TweetContext = createContext({
   tweetUrl: "",
   tweetData: {},
   tweetRef: undefined,
+});
+
+const TweetURLFormSchema = Yup.object().shape({
+  link: Yup.string()
+    .required("Required!")
+    .matches(/^https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)$/, {
+      message: "Invalid Tweet URL",
+    }),
 });
 
 const MintPage: NextPage = () => {
@@ -68,16 +77,21 @@ const MintPage: NextPage = () => {
             setTweetData(tweetObj);
             setSubmitting(false);
           }}
+          validationSchema={TweetURLFormSchema}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, errors }) => (
             <Form className="fixed flex items-center px-4 py-2 transition duration-200 border-2 border-gray-600 shadow-lg top-8 px-w rounded-xl bg-secondary/10 backdrop-filter backdrop-blur-md focus-within:border-accent hover:border-opacity-60 focus-within:hover:border-accent">
-              <Field
-                type="text"
-                name="link"
-                placeholder="Tweet URL"
-                className="px-4 py-2 text-xl text-gray-300 placeholder-gray-500 bg-transparent border-none focus:outline-none focus:ring-0"
-              />
-              <ErrorMessage name="link" />
+              <div className="flex flex-col space-y-2">
+                <Field
+                  type="text"
+                  name="link"
+                  placeholder="Tweet URL"
+                  className="px-4 py-2 text-xl text-gray-300 placeholder-gray-500 bg-transparent border-none focus:outline-none focus:ring-0"
+                />
+                {errors.link && (
+                  <p className="mx-4 text-sm text-red-500">{errors.link}</p>
+                )}
+              </div>
               <button type="submit" className="w-6 h-6 ml-2 text-gray-300">
                 {isSubmitting ? (
                   <Spinner className="text-accent" />

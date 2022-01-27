@@ -10,6 +10,7 @@ import useUser from "../hooks/useUser";
 
 const MintNFTModal = () => {
   const [isOpen, toggleOpen] = useState<boolean>(false);
+  const [errorMessage, setError] = useState<string>();
   const { user } = useUser();
   const { tweetUrl, tweetData, tweetRef } = useTweetUrl();
 
@@ -25,21 +26,33 @@ const MintNFTModal = () => {
         uploadToIPFS(blob).then(async hash => {
           const ipfsHash = hash;
           console.log(ipfsHash);
-          const res = await fetch(`/api/mint?tweetUrl=${tweetUrl}`, {
-            headers: {
-              authorization: await user?.getIdToken(),
-            } as HeadersInit,
-            method: "POST",
-            body: JSON.stringify({
-              tweetUrl: tweetUrl,
-              tweetData: tweetData,
-              ipfsHash: ipfsHash,
-              name: name,
-              description: description,
-            }),
-          });
+          const res = await fetch(
+            `/api/generate-signature?tweetUrl=${tweetUrl}`,
+            {
+              headers: {
+                authorization: await user?.getIdToken(),
+              } as HeadersInit,
+              method: "POST",
+              body: JSON.stringify({
+                tweetUrl: tweetUrl,
+                tweetData: tweetData,
+                ipfsHash: ipfsHash,
+                name: name,
+                description: description,
+              }),
+            }
+          );
 
-          console.log(await res.json());
+          const { error, data } = await res.json();
+          if (error === "tweetMinted") {
+            setError("Tweet has already minted");
+            console.log("Tweet has already minted");
+          } else if (error === "notTweetOwner") {
+            setError("You can only mint tweets that you own");
+            console.log("You can only mint tweets that you own");
+          } else {
+            console.log(data);
+          }
         });
       });
     });
@@ -103,6 +116,11 @@ const MintNFTModal = () => {
                         </Form>
                       )}
                     </Formik>
+                    {errorMessage && (
+                      <p className="mt-4 text-red-500 text-md">
+                        {errorMessage}
+                      </p>
+                    )}
                   </div>
                 </Dialog.Content>
               </motion.div>

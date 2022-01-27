@@ -2,12 +2,17 @@ import { uploadToIPFS } from "@3rdweb/sdk";
 import FileOrBuffer from "@3rdweb/sdk/dist/types/FileOrBuffer";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ref } from "firebase/storage";
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import html2canvas from "html2canvas";
 import { useState } from "react";
 import useTweetUrl from "../hooks/useTweetContext";
 import useUser from "../hooks/useUser";
+import * as Yup from "yup";
+
+const MintNFTSchema = Yup.object().shape({
+  name: Yup.string().required("Required!"),
+});
 
 const MintNFTModal = () => {
   const [isOpen, toggleOpen] = useState<boolean>(false);
@@ -95,8 +100,9 @@ const MintNFTModal = () => {
                         await mintNFT(values.name, values.description);
                         setSubmitting(false);
                       }}
+                      validationSchema={MintNFTSchema}
                     >
-                      {({ isSubmitting }) => (
+                      {({ isSubmitting, errors }) => (
                         <Form className="mx-4">
                           <div className="mt-6">
                             <label
@@ -111,6 +117,12 @@ const MintNFTModal = () => {
                               name="name"
                               id="name"
                             />
+
+                            {errors.name && (
+                              <p className="px-3 py-2 mt-4 text-center text-white bg-red-500 w-fit rounded-xl text-md">
+                                {errors.name}
+                              </p>
+                            )}
                           </div>
                           <div className="mt-6">
                             <label
@@ -140,7 +152,7 @@ const MintNFTModal = () => {
                       )}
                     </Formik>
                     {errorMessage && (
-                      <p className="px-3 py-2 mx-4 mt-4 text-center text-white bg-red-500 rounded-xl text-md">
+                      <p className="px-3 py-2 mx-4 mt-4 text-center text-white bg-red-500 rounded-xl text-md w-fit">
                         {errorMessage}
                       </p>
                     )}

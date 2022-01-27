@@ -1,4 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { ThirdwebSDK } from "@3rdweb/sdk";
+import { ethers } from "ethers";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { auth } from "../../lib/firebaseAdmin";
 
@@ -34,9 +36,27 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const tweetData = await twitterRes.json();
   console.log(tweetData);
   if (tweetData.data.author_id === tweetAuthordId) {
-    res.send({ message: "Valid" });
+    const sdk = new ThirdwebSDK(
+      new ethers.Wallet(
+        process.env.PRIVATE_KEY as string,
+        ethers.getDefaultProvider("rinkeby")
+      )
+    );
+
+    const nftModule = sdk.getNFTModule(
+      process.env.NEXT_PUBLIC_NFT_MODULE_ADDRESS as string
+    );
+
+    res.send({ data: JSON.parse(req.body) });
+
+    // nftModule.generateSignature({
+    // 	metadata: {
+
+    // 	},
+    //   to: req.query.receiverAddress,
+    // });
   } else {
-    res.send({ message: "Invalid" });
+    res.send({ message: "Tweet doesn't belong to user" });
   }
 };
 

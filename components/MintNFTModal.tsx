@@ -1,22 +1,45 @@
+import { uploadToIPFS } from "@3rdweb/sdk";
 import * as Dialog from "@radix-ui/react-dialog";
+import { ref } from "firebase/storage";
 import { AnimatePresence, motion } from "framer-motion";
+import html2canvas from "html2canvas";
 import { useState } from "react";
-import useTweetUrl from "../hooks/useTweetUrl";
+import useTweetUrl from "../hooks/useTweetContext";
 import useUser from "../hooks/useUser";
 
 const MintNFTModal = () => {
   const [isOpen, toggleOpen] = useState<boolean>(false);
   const { user } = useUser();
-  const tweetUrl = useTweetUrl();
+  const { tweetUrl, tweetData, tweetRef } = useTweetUrl();
 
   const mintNFT = async () => {
-    const res = await fetch(`/api/mint?tweetUrl=${tweetUrl}`, {
-      headers: {
-        authorization: await user?.getIdToken(),
-      } as HeadersInit,
-    });
+    const canvas = html2canvas(tweetRef?.current as HTMLDivElement, {
+      backgroundColor: null,
+      useCORS: true,
+      scrollY: -window.scrollY,
+    }).then(canvas => {
+      canvas.style.display = "none";
+      canvas.toBlob(blob => {
+        // const nftRef = ref(storage);
+        uploadToIPFS(blob).then(async hash => {
+          const ipfsHash = hash;
+          console.log(ipfsHash);
+          const res = await fetch(`/api/mint?tweetUrl=${tweetUrl}`, {
+            headers: {
+              authorization: await user?.getIdToken(),
+            } as HeadersInit,
+            method: "POST",
+            body: JSON.stringify({
+              tweetUrl: tweetUrl,
+              tweetData: tweetData,
+              ipfsHash: ipfsHash,
+            }),
+          });
 
-    console.log(await res.json());
+          console.log(await res.json());
+        });
+      });
+    });
   };
 
   return (

@@ -19,7 +19,11 @@ const TweetImageDropdown = dynamic(
   { ssr: false }
 );
 
-export const TweetContext = createContext("");
+export const TweetContext = createContext({
+  tweetUrl: "",
+  tweetData: {},
+  tweetRef: undefined,
+});
 
 const MintPage: NextPage = () => {
   const [tweetData, setTweetData] = useState<ITweetObject>();
@@ -44,7 +48,13 @@ const MintPage: NextPage = () => {
   const tweetRef = useRef<HTMLDivElement>(null);
 
   return (
-    <TweetContext.Provider value={tweetUrl}>
+    <TweetContext.Provider
+      value={{
+        tweetUrl: tweetUrl,
+        tweetData: tweetData,
+        tweetRef: tweetRef,
+      }}
+    >
       <div className="flex flex-col items-center justify-center">
         <Formik
           initialValues={{ link: "" }}

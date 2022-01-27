@@ -5,7 +5,7 @@ const Spinner = ({ className, ...otherProps }: IconProps): JSX.Element => (
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
-    className={`w-5 h-5 mr-3 text-white animate-spin ${className}`}
+    className={`w-5 h-5 text-white animate-spin ${className}`}
     {...otherProps}
   >
     <circle

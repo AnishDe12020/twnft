@@ -34,9 +34,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const tweetData = await twitterRes.json();
   console.log(tweetData);
   if (tweetData.data.author_id === tweetAuthordId) {
-    res.send("Valid");
+    res.send({ message: "Valid" });
   } else {
-    res.send("Invalid");
+    res.send({ message: "Invalid" });
   }
 };
 

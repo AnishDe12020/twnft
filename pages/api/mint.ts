@@ -90,10 +90,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       ],
     };
 
-    // const nftCollectionRef = db.collection("nft");
-    // nftCollectionRef.add(nftMedatada);
+    const nftCollectionRef = db.collection("nft");
+    const firebaseRes = await nftCollectionRef.doc(tweetId).set(nftMedatada);
 
-    console.log(nftMedatada);
+    console.log(firebaseRes);
 
     res.send({ data: JSON.parse(req.body) });
 

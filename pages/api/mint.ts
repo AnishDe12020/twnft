@@ -2,7 +2,7 @@
 import { ThirdwebSDK } from "@3rdweb/sdk";
 import { ethers } from "ethers";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { auth } from "../../lib/firebaseAdmin";
+import { auth, db } from "../../lib/firebaseAdmin";
 
 const TWITTER_TWEET_API_URL = "https://api.twitter.com/2/tweets/";
 const TWITTER_API_MORE_PARAMS = "?expansions=author_id";
@@ -12,11 +12,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await auth.verifyIdToken(req.headers.authorization as string)
   ).firebase.identities["twitter.com"][0];
 
+  const tweetUrl = req.query.tweetUrl as string;
   let tweetId: string = "";
   if (req.query.tweetId) {
     tweetId = req.query.tweetId as string;
   } else {
-    const tweetUrl = req.query.tweetUrl as string;
     console.log(tweetUrl);
     tweetId = tweetUrl.split("/")[5];
     console.log(tweetId);
@@ -36,16 +36,64 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const tweetData = await twitterRes.json();
   console.log(tweetData);
   if (tweetData.data.author_id === tweetAuthordId) {
-    const sdk = new ThirdwebSDK(
-      new ethers.Wallet(
-        process.env.PRIVATE_KEY as string,
-        ethers.getDefaultProvider("rinkeby")
-      )
-    );
+    // const sdk = new ThirdwebSDK(
+    //   new ethers.Wallet(
+    //     process.env.PRIVATE_KEY as string,
+    //     ethers.getDefaultProvider("rinkeby")
+    //   )
+    // );
 
-    const nftModule = sdk.getNFTModule(
-      process.env.NEXT_PUBLIC_NFT_MODULE_ADDRESS as string
-    );
+    // const nftModule = sdk.getNFTModule(
+    //   process.env.NEXT_PUBLIC_NFT_MODULE_ADDRESS as string
+    // );
+
+    const reqBody = JSON.parse(req.body as string);
+    const nftTweetData = reqBody.tweetData;
+
+    const nftMedatada = {
+      name: reqBody.name,
+      description: reqBody.description || nftTweetData.data.text,
+      image: reqBody.ipfsHash,
+      attributes: [
+        {
+          display_type: "date",
+          trait_type: "date",
+          value: Math.floor(
+            new Date(nftTweetData.data.created_at).getTime() / 1000
+          ),
+        },
+        {
+          display_type: "text",
+          trait_type: "Author Name",
+          value: nftTweetData.includes.users[0].name,
+        },
+        {
+          display_type: "text",
+          trait_type: "Author Username",
+          value: nftTweetData.includes.users[0].username,
+        },
+        {
+          display_type: "text",
+          trait_type: "content",
+          value: nftTweetData.data.text,
+        },
+        {
+          display_type: "text",
+          trait_type: "Tweet URL",
+          value: tweetUrl,
+        },
+        {
+          display_type: "text",
+          trait_type: "Tweet ID",
+          value: tweetId,
+        },
+      ],
+    };
+
+    // const nftCollectionRef = db.collection("nft");
+    // nftCollectionRef.add(nftMedatada);
+
+    console.log(nftMedatada);
 
     res.send({ data: JSON.parse(req.body) });
 

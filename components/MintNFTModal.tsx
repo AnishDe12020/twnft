@@ -1,6 +1,7 @@
 import { uploadToIPFS } from "@3rdweb/sdk";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ref } from "firebase/storage";
+import { Field, Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import html2canvas from "html2canvas";
 import { useState } from "react";
@@ -12,7 +13,7 @@ const MintNFTModal = () => {
   const { user } = useUser();
   const { tweetUrl, tweetData, tweetRef } = useTweetUrl();
 
-  const mintNFT = async () => {
+  const mintNFT = async (name: string, description?: string) => {
     const canvas = html2canvas(tweetRef?.current as HTMLDivElement, {
       backgroundColor: null,
       useCORS: true,
@@ -33,6 +34,8 @@ const MintNFTModal = () => {
               tweetUrl: tweetUrl,
               tweetData: tweetData,
               ipfsHash: ipfsHash,
+              name: name,
+              description: description,
             }),
           });
 
@@ -72,9 +75,34 @@ const MintNFTModal = () => {
                   className="p-4 transition duration-200 border-2 border-gray-600 shadow-lg bg-secondary/10 transiton backdrop-filter backdrop-blur-md hover:border-opacity-60 rounded-2xl"
                 >
                   <div>
-                    <button onClick={mintNFT} className="text-white">
-                      Mint NFT
-                    </button>
+                    <Formik
+                      initialValues={{ name: "", description: "" }}
+                      onSubmit={async (values, { setSubmitting }) => {
+                        await mintNFT(values.name, values.description);
+                        setSubmitting(false);
+                      }}
+                    >
+                      {({ isSubmitting }) => (
+                        <Form>
+                          <div>
+                            <label htmlFor="name">NFT Name</label>
+                            <Field type="text" name="name" id="name" />
+                          </div>
+                          <div>
+                            <label htmlFor="description">NFT Description</label>
+                            <p>Tweet Content will be used if left blank</p>
+                            <Field
+                              type="text"
+                              name="description"
+                              id="description"
+                            />
+                          </div>
+                          <button type="submit" className="text-white">
+                            Mint NFT
+                          </button>
+                        </Form>
+                      )}
+                    </Formik>
                   </div>
                 </Dialog.Content>
               </motion.div>

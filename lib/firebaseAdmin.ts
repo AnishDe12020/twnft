@@ -1,4 +1,5 @@
 import admin from "firebase-admin";
+import { getFirestore } from "firebase-admin/firestore";
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -14,4 +15,5 @@ if (!admin.apps.length) {
 }
 
 const auth = admin.auth();
-export { auth };
+const db = getFirestore();
+export { auth, db };

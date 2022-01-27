@@ -80,7 +80,7 @@ const MintPage: NextPage = () => {
           validationSchema={TweetURLFormSchema}
         >
           {({ isSubmitting, errors }) => (
-            <Form className="fixed flex items-center px-4 py-2 transition duration-200 border-2 border-gray-600 shadow-lg top-8 px-w rounded-xl bg-secondary/10 backdrop-filter backdrop-blur-md focus-within:border-accent hover:border-opacity-60 focus-within:hover:border-accent">
+            <Form className="sticky flex items-center px-4 py-2 mx-8 transition duration-200 border-2 border-gray-600 shadow-lg top-8 px-w rounded-xl bg-secondary/10 backdrop-filter backdrop-blur-md focus-within:border-accent hover:border-opacity-60 focus-within:hover:border-accent">
               <div className="flex flex-col space-y-2">
                 <Field
                   type="text"
@@ -113,13 +113,15 @@ const MintPage: NextPage = () => {
             </div>
           )}
         </div>
-        <div className="fixed flex p-2 space-x-2 transition duration-200 border-2 border-gray-600 shadow-lg hover:border-opacity-60 bottom-8 bg-secondary/10 backdrop-filter backdrop-blur-md rounded-xl">
+        <div className="fixed flex flex-wrap items-center justify-center p-2 mx-8 space-x-2 space-y-4 transition duration-200 border-2 border-gray-600 shadow-lg hover:border-opacity-60 bottom-8 bg-secondary/10 backdrop-filter backdrop-blur-md rounded-xl">
           <TweetOptionButtons
             toggleTweetOption={toggleTweetOption}
             tweetOptions={tweetOptions}
           />
-          <TweetImageDropdown tweetRef={tweetRef} />
-          <ThirdWebAuth />
+          <div className="flex space-x-2">
+            <TweetImageDropdown tweetRef={tweetRef} />
+            <ThirdWebAuth />
+          </div>
         </div>
       </div>
     </TweetContext.Provider>

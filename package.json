@@ -5,8 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "backend:start": "cd backend && npm start"
+    "lint": "next lint"
   },
   "dependencies": {
     "@3rdweb/hooks": "^1.8.0",

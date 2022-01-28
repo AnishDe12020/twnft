@@ -6,7 +6,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import html2canvas from "html2canvas";
 import { useState } from "react";
-import useTweetUrl from "../hooks/useTweetContext";
+import useTweetContext from "../hooks/useTweetContext";
 import useUser from "../hooks/useUser";
 import * as Yup from "yup";
 import { Spinner } from "./Icons";
@@ -20,7 +20,7 @@ const MintNFTModal = () => {
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const [errorMessage, setError] = useState<string>();
   const { user } = useUser();
-  const { tweetUrl, tweetData, tweetRef } = useTweetUrl();
+  const { tweetUrl, tweetData, tweetRef } = useTweetContext();
 
   const mintNFT = async (
     name: string,

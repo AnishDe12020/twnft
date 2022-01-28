@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { ChangeEvent, createContext, useRef, useState } from "react";
+import { ChangeEvent, createContext, useRef, useState, RefObject } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { format, formatISO } from "date-fns";
 import { Like, Reply, Retweet, Spinner } from "../components/Icons";
@@ -14,15 +14,16 @@ import TweetOptionButtons from "../components/TweetOptionButtons";
 import ThirdWebAuth from "../components/ThirdwebAuth";
 import dynamic from "next/dynamic";
 import * as Yup from "yup";
+import ITweetContext from "../types/TweetContext";
 
 const TweetImageDropdown = dynamic(
   () => import("../components/TweetImageDropdown"),
   { ssr: false }
 );
 
-export const TweetContext = createContext({
-  tweetUrl: "",
-  tweetData: {},
+export const TweetContext = createContext<ITweetContext>({
+  tweetUrl: undefined,
+  tweetData: undefined,
   tweetRef: undefined,
 });
 

@@ -98,19 +98,19 @@ const Tweet = ({
           <p className="my-4">{tweetText}</p>
           <div className="flex flex-row space-x-6">
             {tweetOptions.likes && (
-              <div className="flex space-x-2 text-red-400">
+              <div className="flex space-x-2 text-gray-300">
                 <Like />
                 <p>{tweetData.public_metrics.like_count}</p>
               </div>
             )}
             {tweetOptions.retweets && (
-              <div className="flex space-x-2 text-green-400">
+              <div className="flex space-x-2 text-gray-300">
                 <Retweet />
                 <p>{tweetData.public_metrics.retweet_count}</p>
               </div>
             )}
             {tweetOptions.replies && (
-              <div className="flex space-x-2 text-blue-400">
+              <div className="flex space-x-2 text-gray-300">
                 <Reply />
                 <p>{tweetData.public_metrics.reply_count}</p>
               </div>

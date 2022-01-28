@@ -98,7 +98,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const nftCollectionRef = db.collection("nft");
         const firebaseRes = await nftCollectionRef
           .doc(tweetId)
-          .set({ ...nftMedatada, created_date: new Date() });
+          .set({
+            ...nftMedatada,
+            created_date: new Date().toISOString(),
+            minted: false,
+          });
 
         console.log(firebaseRes);
 

@@ -113,7 +113,7 @@ const MintPage: NextPage = () => {
             </div>
           )}
         </div>
-        <div className="fixed flex flex-wrap items-center justify-center p-2 mx-8 space-x-2 space-y-4 transition duration-200 border-2 border-gray-600 shadow-lg hover:border-opacity-60 bottom-8 bg-secondary/10 backdrop-filter backdrop-blur-md rounded-xl">
+        <div className="fixed flex flex-wrap items-center justify-center p-2 mx-8 space-x-2 space-y-4 transition duration-200 border-2 border-gray-600 shadow-lg md:space-y-0 hover:border-opacity-60 bottom-8 bg-secondary/10 backdrop-filter backdrop-blur-md rounded-xl">
           <TweetOptionButtons
             toggleTweetOption={toggleTweetOption}
             tweetOptions={tweetOptions}

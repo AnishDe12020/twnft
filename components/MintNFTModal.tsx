@@ -10,6 +10,7 @@ import useTweetContext from "../hooks/useTweetContext";
 import useUser from "../hooks/useUser";
 import * as Yup from "yup";
 import { Spinner } from "./Icons";
+import { useWeb3 } from "@3rdweb/hooks";
 
 const MintNFTSchema = Yup.object().shape({
   name: Yup.string().required("Required!"),
@@ -21,6 +22,7 @@ const MintNFTModal = () => {
   const [errorMessage, setError] = useState<string>();
   const { user } = useUser();
   const { tweetUrl, tweetData, tweetRef } = useTweetContext();
+  const { address } = useWeb3();
 
   const mintNFT = async (
     name: string,
@@ -38,22 +40,23 @@ const MintNFTModal = () => {
         uploadToIPFS(blob as FileOrBuffer).then(async hash => {
           const ipfsHash = hash;
           console.log(ipfsHash);
-          const res = await fetch(
-            `/api/generate-signature?tweetUrl=${tweetUrl}`,
-            {
-              headers: {
-                authorization: await user?.getIdToken(),
-              } as HeadersInit,
-              method: "POST",
-              body: JSON.stringify({
-                tweetUrl: tweetUrl,
-                tweetData: tweetData,
-                ipfsHash: ipfsHash,
-                name: name,
-                description: description,
-              }),
-            }
-          );
+          console.time("genSig");
+
+          const res = await fetch(`/api/generate-signature`, {
+            headers: {
+              authorization: await user?.getIdToken(),
+            } as HeadersInit,
+            method: "POST",
+            body: JSON.stringify({
+              tweetUrl: tweetUrl,
+              tweetData: tweetData,
+              ipfsHash: ipfsHash,
+              name: name,
+              description: description,
+              receiverAddress: address,
+            }),
+          });
+          console.timeEnd("genSig");
 
           const { error, data } = await res.json();
           if (error === "tweetMinted") {

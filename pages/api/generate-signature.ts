@@ -9,14 +9,15 @@ const TWITTER_API_MORE_PARAMS = "?expansions=author_id";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+    const reqBody = JSON.parse(req.body as string);
     const tweetAuthordId = (
       await auth.verifyIdToken(req.headers.authorization as string)
     ).firebase.identities["twitter.com"][0];
 
-    const tweetUrl = req.query.tweetUrl as string;
+    const tweetUrl = reqBody.tweetUrl as string;
     let tweetId: string = "";
-    if (req.query.tweetId) {
-      tweetId = req.query.tweetId as string;
+    if (reqBody.tweetId) {
+      tweetId = reqBody.tweetId as string;
     } else {
       console.log(tweetUrl);
       tweetId = tweetUrl.split("/")[5];
@@ -37,28 +38,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const tweetData = await twitterRes.json();
     console.log(tweetData);
     if (tweetData.data.author_id === tweetAuthordId) {
-      // const sdk = new ThirdwebSDK(
-      //   new ethers.Wallet(
-      //     process.env.PRIVATE_KEY as string,
-      //     ethers.getDefaultProvider("rinkeby")
-      //   )
-      // );
-
-      // const nftModule = sdk.getNFTModule(
-      //   process.env.NEXT_PUBLIC_NFT_MODULE_ADDRESS as string
-      // );
-
       const tweetRef = db.collection("nft").doc(tweetId);
       const tweetDoc = await tweetRef.get();
 
       if (!tweetDoc.exists) {
-        const reqBody = JSON.parse(req.body as string);
         const nftTweetData = reqBody.tweetData;
 
         const nftMedatada = {
           name: reqBody.name,
           description: reqBody.description || nftTweetData.data.text,
           image: reqBody.ipfsHash,
+          external_url: `https://twnft.vercel.app/tweet/${tweetId}`,
           attributes: [
             {
               display_type: "date",
@@ -95,28 +85,48 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           ],
         };
 
+        const sdk = new ThirdwebSDK(
+          new ethers.Wallet(
+            process.env.PRIVATE_KEY as string,
+            ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
+          )
+        );
+
         const nftCollectionRef = db.collection("nft");
-        const firebaseRes = await nftCollectionRef
-          .doc(tweetId)
-          .set({
-            ...nftMedatada,
-            created_date: new Date().toISOString(),
-            minted: false,
-          });
+        const firebaseRes = await nftCollectionRef.doc(tweetId).set({
+          ...nftMedatada,
+          created_date: new Date().toISOString(),
+          minted: false,
+        });
 
         console.log(firebaseRes);
 
-        res.send({ data: JSON.parse(req.body) });
+        const nftModule = sdk.getNFTModule(
+          process.env.NEXT_PUBLIC_NFT_MODULE_ADDRESS as string
+        );
+
+        console.log(reqBody);
+
+        // const { payload, signature } = await nftModule.generateSignature({
+        //   metadata: nftMedatada,
+        //   price: 0,
+        //   currencyAddress: "0x0",
+        //   to: reqBody.receiverAddress as string,
+        //   mintStartTimeEpochSeconds: 0,
+        //   mintEndTimeEpochSeconds: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
+        // });
+
+        const result = await nftModule.mintTo(
+          reqBody.receiverAddress as string,
+          nftMedatada
+        );
+
+        console.log(result);
+
+        res.send({ data: { result } });
       } else {
         res.send({ error: "tweetMinted" });
       }
-
-      // nftModule.generateSignature({
-      // 	metadata: {
-
-      // 	},
-      //   to: req.query.receiverAddress,
-      // });
     } else {
       res.send({ error: "notTweetOwner" });
     }

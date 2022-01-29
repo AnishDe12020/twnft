@@ -42,20 +42,24 @@ const MintNFTModal = () => {
           console.log(ipfsHash);
           console.time("genSig");
 
-          const res = await fetch(`/api/generate-signature`, {
-            headers: {
-              authorization: await user?.getIdToken(),
-            } as HeadersInit,
-            method: "POST",
-            body: JSON.stringify({
-              tweetUrl: tweetUrl,
-              tweetData: tweetData,
-              ipfsHash: ipfsHash,
-              name: name,
-              description: description,
-              receiverAddress: address,
-            }),
-          });
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/mint`,
+            {
+              headers: {
+                authorization: await user?.getIdToken(),
+                "Content-Type": "application/json",
+              } as HeadersInit,
+              method: "POST",
+              body: JSON.stringify({
+                tweetUrl: tweetUrl,
+                tweetData: tweetData,
+                ipfsHash: ipfsHash,
+                name: name,
+                description: description,
+                receiverAddress: address,
+              }),
+            }
+          );
           console.timeEnd("genSig");
 
           const { error, data } = await res.json();

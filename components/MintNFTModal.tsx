@@ -11,24 +11,29 @@ import useUser from "../hooks/useUser";
 import * as Yup from "yup";
 import { Spinner } from "./Icons";
 import { useWeb3 } from "@3rdweb/hooks";
+import { TweetMetadata } from "../types/TweetMetadata";
+import { HiExternalLink } from "react-icons/hi";
 
 const MintNFTSchema = Yup.object().shape({
   name: Yup.string().required("Required!"),
 });
 
+interface IMintedMetadata extends TweetMetadata {
+  id: number;
+}
+
 const MintNFTModal = () => {
   const [isOpen, toggleOpen] = useState<boolean>(false);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const [errorMessage, setError] = useState<string>();
+  const [mintedMetadata, setMintedMetadata] = useState<
+    IMintedMetadata | undefined
+  >();
   const { user } = useUser();
   const { tweetUrl, tweetData, tweetRef } = useTweetContext();
   const { address } = useWeb3();
 
-  const mintNFT = async (
-    name: string,
-    setSubmitting: (isSubmitting: boolean) => void,
-    description?: string
-  ) => {
+  const mintNFT = async (name: string, description?: string) => {
     html2canvas(tweetRef?.current as HTMLDivElement, {
       backgroundColor: null,
       useCORS: true,
@@ -36,7 +41,6 @@ const MintNFTModal = () => {
     }).then(async canvas => {
       canvas.style.display = "none";
       canvas.toBlob(async blob => {
-        // const nftRef = ref(storage);
         uploadToIPFS(blob as FileOrBuffer).then(async hash => {
           const ipfsHash = hash;
           console.log(ipfsHash);
@@ -72,7 +76,7 @@ const MintNFTModal = () => {
             console.log("You can only mint tweets that you own");
             setSubmitting(false);
           } else {
-            console.log(data);
+            setMintedMetadata(data);
             setSubmitting(false);
           }
         });
@@ -94,7 +98,7 @@ const MintNFTModal = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.6, opacity: 0 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
-                className="fixed -mt-48 -ml-48 top-1/2 left-1/2 w-96 h-96"
+                className="fixed -mt-[16rem] -ml-48 top-1/2 left-1/2 w-96 h-[32rem]"
               ></motion.div>
             </Dialog.Overlay>
             <motion.div
@@ -102,85 +106,103 @@ const MintNFTModal = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.6, opacity: 0 }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="fixed -mt-48 -ml-48 top-1/2 left-1/2 w-96 h-96"
+              className="fixed -mt-[16rem] -ml-48 top-1/2 left-1/2 w-96 h-[32rem]"
             >
               <Dialog.Content
                 forceMount
                 className="p-4 transition duration-200 border-2 border-gray-600 shadow-lg bg-secondary/10 transiton backdrop-filter backdrop-blur-md hover:border-opacity-60 rounded-2xl"
               >
                 <div>
-                  <Formik
-                    initialValues={{ name: "", description: "" }}
-                    onSubmit={async values => {
-                      setSubmitting(true);
-                      await mintNFT(
-                        values.name,
-                        setSubmitting,
-                        values.description
-                      );
-                    }}
-                    validationSchema={MintNFTSchema}
-                  >
-                    {({ errors }) => {
-                      console.log("s", isSubmitting);
-                      return (
-                        <Form className="mx-4">
-                          <div className="mt-6">
-                            <label
-                              className="text-lg font-semibold text-white"
-                              htmlFor="name"
-                            >
-                              NFT Name
-                            </label>
-                            <Field
-                              className="w-64 mt-4 border-2 rounded-xl border-secondary hover:border-opacity-60"
-                              type="text"
-                              name="name"
-                              id="name"
-                            />
+                  {!mintedMetadata && (
+                    <Formik
+                      initialValues={{ name: "", description: "" }}
+                      onSubmit={async values => {
+                        setSubmitting(true);
+                        await mintNFT(
+                          values.name,
+                          setSubmitting,
+                          values.description
+                        );
+                      }}
+                      validationSchema={MintNFTSchema}
+                    >
+                      {({ errors }) => {
+                        console.log("s", isSubmitting);
+                        return (
+                          <Form className="mx-4">
+                            <div className="mt-6">
+                              <label
+                                className="text-lg font-semibold text-white"
+                                htmlFor="name"
+                              >
+                                NFT Name
+                              </label>
+                              <Field
+                                className="w-64 mt-4 border-2 rounded-xl border-secondary hover:border-opacity-60"
+                                type="text"
+                                name="name"
+                                id="name"
+                              />
 
-                            {errors.name && (
-                              <p className="px-3 py-2 mt-4 text-center text-white bg-red-500 w-fit rounded-xl text-md">
-                                {errors.name}
-                              </p>
-                            )}
-                          </div>
-                          <div className="mt-6">
-                            <label
-                              className="text-lg font-semibold text-white"
-                              htmlFor="description"
+                              {errors.name && (
+                                <p className="px-3 py-2 mt-4 text-center text-white bg-red-500 w-fit rounded-xl text-md">
+                                  {errors.name}
+                                </p>
+                              )}
+                            </div>
+                            <div className="mt-6">
+                              <label
+                                className="text-lg font-semibold text-white"
+                                htmlFor="description"
+                              >
+                                NFT Description
+                                <p className="mt-2 text-sm font-normal text-gray-300">
+                                  Tweet Content will be used if left blank
+                                </p>
+                              </label>
+                              <Field
+                                as="textarea"
+                                className="mt-4 border-2 rounded-xl border-secondary"
+                                type="text"
+                                name="description"
+                                id="description"
+                              />
+                            </div>
+                            <button
+                              type="submit"
+                              className="relative z-10 px-4 py-2 mt-4 text-center text-white rounded-lg w-fit bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg"
                             >
-                              NFT Description
-                              <p className="mt-2 text-sm font-normal text-gray-300">
-                                Tweet Content will be used if left blank
+                              {isSubmitting ? (
+                                <Spinner className="text-white" />
+                              ) : (
+                                <span>Submit</span>
+                              )}
+                            </button>
+                            {isSubmitting && (
+                              <p className="mt-4 text-sm text-gray-300">
+                                This might take 2-3 minutes...
                               </p>
-                            </label>
-                            <Field
-                              as="textarea"
-                              className="mt-4 border-2 rounded-xl border-secondary"
-                              type="text"
-                              name="description"
-                              id="description"
-                            />
-                          </div>
-                          <button
-                            type="submit"
-                            className="relative z-10 px-4 py-2 mt-4 text-center text-white rounded-lg w-fit bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg"
-                          >
-                            {isSubmitting ? (
-                              <Spinner className="text-white" />
-                            ) : (
-                              <span>Submit</span>
                             )}
-                          </button>
-                        </Form>
-                      );
-                    }}
-                  </Formik>
+                          </Form>
+                        );
+                      }}
+                    </Formik>
+                  )}
                   {errorMessage && (
                     <p className="px-3 py-2 mx-4 mt-4 text-center text-white bg-red-500 rounded-xl text-md w-fit">
                       {errorMessage}
                     </p>
+                  )}
+                  {mintedMetadata && (
+                    <a
+                      href={`https://testnets.opensea.io/assets/${process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS}/e`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 mx-4 flex bg-[#2882e0] rounded-xl w-fit items-center justify-center hover:opacity-60 py-2 px-4 text-white"
+                    >
+                      See on OpenSea
+                      <HiExternalLink className="ml-2" />
+                    </a>
                   )}
                 </div>
               </Dialog.Content>

@@ -118,11 +118,7 @@ const MintNFTModal = () => {
                       initialValues={{ name: "", description: "" }}
                       onSubmit={async values => {
                         setSubmitting(true);
-                        await mintNFT(
-                          values.name,
-                          setSubmitting,
-                          values.description
-                        );
+                        await mintNFT(values.name, values.description);
                       }}
                       validationSchema={MintNFTSchema}
                     >
@@ -195,10 +191,10 @@ const MintNFTModal = () => {
                   )}
                   {mintedMetadata && (
                     <a
-                      href={`https://testnets.opensea.io/assets/${process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS}/e`}
+                      href={`https://testnets.opensea.io/assets/${process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS}/${mintedMetadata.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-4 mx-4 flex bg-[#2882e0] rounded-xl w-fit items-center justify-center hover:opacity-60 py-2 px-4 text-white"
+                      className="mx-4 flex bg-[#2882e0] rounded-xl w-fit items-center justify-center hover:opacity-60 py-2 px-4 text-white"
                     >
                       See on OpenSea
                       <HiExternalLink className="ml-2" />

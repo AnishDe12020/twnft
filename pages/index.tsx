@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import Header from "../components/Header";
 import { Logo } from "../components/Icons";
+import { MdDashboardCustomize } from "react-icons/md";
 
 const Home: NextPage = () => {
   return (
@@ -30,6 +31,33 @@ const Home: NextPage = () => {
               Mint your tweet as an NFT
             </a>
           </Link>
+        </div>
+
+        <div className="flex justify-around mt-16 space-x-4 text-white">
+          <div className="flex flex-col items-center justify-center w-64">
+            <MdDashboardCustomize className="w-12 h-12 mb-2" />
+            <h3 className="text-lg font-semibold">Customizable tweet image</h3>
+            <p className="text-center text-gray-300">
+              You can hide/show items in the tweet like likes, retwets replies,
+              quote tweets, etc.
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center w-64">
+            <MdDashboardCustomize className="w-12 h-12 mb-2" />
+            <h3 className="text-lg font-semibold">Customizable tweet image</h3>
+            <p className="text-center text-gray-300">
+              You can hide/show items in the tweet like likes, retwets replies,
+              quote tweets, etc.
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center w-64">
+            <MdDashboardCustomize className="w-12 h-12 mb-2" />
+            <h3 className="text-lg font-semibold">Customizable tweet image</h3>
+            <p className="text-center text-gray-300">
+              You can hide/show items in the tweet like likes, retwets replies,
+              quote tweets, etc.
+            </p>
+          </div>
         </div>
       </div>
     </>

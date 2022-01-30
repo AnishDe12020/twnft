@@ -6,3 +6,4 @@ export { default as MetamaskLogo } from "./MetamaskLogo";
 export { default as WalletConnectLogo } from "./WalletConnectLogo";
 export { default as EthereumLogo } from "./EthereumLogo";
 export { default as Logo } from "./Logo";
+export { default as TwitterLogo } from "./TwitterLogo";

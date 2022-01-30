@@ -8,7 +8,7 @@ import { TiStar } from "react-icons/ti";
 const Home: NextPage = () => {
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <div className="flex flex-col items-center justify-center mx-8 mb-16 md:mx-12 lg:mx-16">
         <Logo className="self-center w-48 h-48 mb-8" />
         <h1 className="text-3xl text-center text-white md:text-4xl lg:text-5xl">

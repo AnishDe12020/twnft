@@ -13,11 +13,11 @@ const Header = (): JSX.Element => {
   console.log(user);
 
   return (
-    <nav className="flex items-center justify-between px-8 py-4">
-      <Logo className="w-16 h-16" />
+    <nav className="flex items-center justify-between px-2 py-4 md:px-4 lg:px-8">
+      <Logo className="w-12 h-12 md:w-16 md:h-16" />
       <div className="flex items-center">
         <Link href="/mint" passHref>
-          <a className="relative z-10 px-3 py-2 mr-8 font-bold text-white rounded-lg text-md bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg">
+          <a className="relative z-10 px-3 py-2 mr-2 text-sm font-bold text-white rounded-lg md:mr-4 lg:mr-8 md:text-md bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg">
             Mint NFT
           </a>
         </Link>
@@ -76,10 +76,10 @@ const Header = (): JSX.Element => {
           </DropdownMenu.Root>
         ) : (
           <button
-            className="px-4 py-2 flex text-white items-center bg-[#1DA1F2] rounded-xl text-md font-bold hover:opacity-60"
+            className="px-4 py-2 flex text-white items-center bg-[#1DA1F2] rounded-xl text-sm md:text-md font-bold hover:opacity-60"
             onClick={signIn}
           >
-            <TwitterLogo className="w-6 h-6 mr-3" />
+            <TwitterLogo className="w-6 h-6 mr-1 md:mr-2" />
             Sign In with Twitter
           </button>
         )}

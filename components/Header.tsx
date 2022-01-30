@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import useUser from "../hooks/useUser";
-import { Logo } from "./Icons";
+import { Logo, TwitterLogo } from "./Icons";
 
 const Header = (): JSX.Element => {
   const { signIn, user } = useUser();
@@ -30,9 +30,10 @@ const Header = (): JSX.Element => {
           </div>
         ) : (
           <button
-            className="p-2 text-white bg-blue-500 rounded-full"
+            className="px-4 py-2 flex text-white items-center bg-[#1DA1F2] rounded-xl text-md font-bold hover:opacity-60"
             onClick={signIn}
           >
+            <TwitterLogo className="w-6 h-6 mr-3" />
             Sign In with Twitter
           </button>
         )}

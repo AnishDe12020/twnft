@@ -6,6 +6,7 @@ interface TweetOptionProps {
   optionName: keyof TweetOptions;
   tweetOptions: TweetOptions;
   children: ReactChild;
+  disabled: boolean;
 }
 
 const TweetOption = ({
@@ -13,13 +14,17 @@ const TweetOption = ({
   optionName,
   tweetOptions,
   children,
+  disabled,
 }: TweetOptionProps): JSX.Element => {
   return (
     <button
       onClick={() => toggleTweetOption(optionName)}
-      className={`text-white hover:opacity-60 p-2 rounded-lg bg-opacity-20 ${
-        tweetOptions[optionName] && "bg-gray-300"
-      }`}
+      className={`text-white p-2 rounded-lg ${
+        disabled
+          ? "bg-opacity-10 cursor-not-allowed"
+          : "bg-opacity-20 hover:opacity-60"
+      } ${tweetOptions[optionName] && "bg-gray-300"}`}
+      disabled={disabled}
     >
       {children}
     </button>

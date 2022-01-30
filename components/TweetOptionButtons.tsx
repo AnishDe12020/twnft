@@ -3,6 +3,7 @@ import { HiCalendar, HiPhotograph } from "react-icons/hi";
 import ITweetOptions from "../types/TweetOptions";
 import { Like, Reply, Retweet } from "./Icons";
 import TweetOption from "./TweetOption";
+import useTweetContext from "../hooks/useTweetContext";
 
 interface TweetOptionButtonsProps {
   tweetOptions: ITweetOptions;
@@ -13,12 +14,14 @@ const TweetOptionButtons = ({
   tweetOptions,
   toggleTweetOption,
 }: TweetOptionButtonsProps): JSX.Element => {
+  const { tweetData } = useTweetContext();
   return (
     <div className="flex space-x-2">
       <TweetOption
         optionName="likes"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
+        disabled={tweetData ? true : false}
       >
         <Like className="w-6 h-6" />
       </TweetOption>
@@ -26,6 +29,7 @@ const TweetOptionButtons = ({
         optionName="replies"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
+        disabled={tweetData ? true : false}
       >
         <Reply className="w-6 h-6" />
       </TweetOption>
@@ -33,6 +37,7 @@ const TweetOptionButtons = ({
         optionName="retweets"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
+        disabled={tweetData ? true : false}
       >
         <Retweet className="w-6 h-6" />
       </TweetOption>
@@ -40,6 +45,7 @@ const TweetOptionButtons = ({
         optionName="date"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
+        disabled={tweetData ? true : false}
       >
         <HiCalendar className="w-6 h-6" />
       </TweetOption>
@@ -47,6 +53,7 @@ const TweetOptionButtons = ({
         optionName="quoteTweet"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
+        disabled={tweetData ? true : false}
       >
         <FaQuoteLeft className="w-6 h-6" />
       </TweetOption>
@@ -54,6 +61,7 @@ const TweetOptionButtons = ({
         optionName="media"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
+        disabled={tweetData ? true : false}
       >
         <HiPhotograph className="w-6 h-6" />
       </TweetOption>

@@ -1,8 +1,9 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { AnimatePresence, motion } from "framer-motion";
 import html2canvas from "html2canvas";
-import React, { RefObject, useState } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import useTweetContext from "../hooks/useTweetContext";
 
 interface TweetImageDropdownProps {
   tweetRef: RefObject<HTMLDivElement>;
@@ -12,10 +13,23 @@ const TweetImageDropdown = ({
   tweetRef,
 }: TweetImageDropdownProps): JSX.Element => {
   const [isOpen, setOpen] = useState<boolean>(false);
+  const { tweetData } = useTweetContext();
+  const [disabled, setDisabled] = useState<boolean>(tweetData ? false : true);
+
+  useEffect(() => {
+    setDisabled(tweetData ? false : true);
+  }, [tweetData]);
 
   return (
     <DropdownMenu.Root open={isOpen} onOpenChange={setOpen}>
-      <DropdownMenu.Trigger className="relative z-10 px-4 py-2 text-white rounded-lg bg-gradient-to-bl from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-tr before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg">
+      <DropdownMenu.Trigger
+        disabled={disabled}
+        className={`relative z-10 px-4 py-2 text-white rounded-lg bg-gradient-to-bl from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-tr before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 ${
+          disabled
+            ? "cursor-not-allowed opacity-60"
+            : "before:hover:opacity-100 opacity-100"
+        } before:rounded-lg`}
+      >
         Export
       </DropdownMenu.Trigger>
 

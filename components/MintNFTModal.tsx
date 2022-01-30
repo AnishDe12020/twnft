@@ -5,7 +5,7 @@ import { ref } from "firebase/storage";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import html2canvas from "html2canvas";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useTweetContext from "../hooks/useTweetContext";
 import useUser from "../hooks/useUser";
 import * as Yup from "yup";
@@ -32,6 +32,12 @@ const MintNFTModal = () => {
   const { user } = useUser();
   const { tweetUrl, tweetData, tweetRef } = useTweetContext();
   const { address } = useWeb3();
+
+  const [disabled, setDisabled] = useState<boolean>(tweetData ? false : true);
+
+  useEffect(() => {
+    setDisabled(tweetData ? false : true);
+  }, [tweetData]);
 
   const mintNFT = async (name: string, description?: string) => {
     html2canvas(tweetRef?.current as HTMLDivElement, {
@@ -86,7 +92,14 @@ const MintNFTModal = () => {
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={toggleOpen}>
-      <Dialog.Trigger className="relative z-10 px-4 py-2 text-white rounded-lg bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg">
+      <Dialog.Trigger
+        className={`relative z-10 px-4 py-2 text-white rounded-lg bg-gradient-to-bl from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-tr before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 ${
+          disabled
+            ? "cursor-not-allowed opacity-60"
+            : "before:hover:opacity-100 opacity-100"
+        } before:rounded-lg`}
+        disabled={disabled}
+      >
         Mint NFT
       </Dialog.Trigger>
       <AnimatePresence>

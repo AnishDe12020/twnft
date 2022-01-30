@@ -2,7 +2,8 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import Header from "../components/Header";
 import { Logo } from "../components/Icons";
-import { MdDashboardCustomize } from "react-icons/md";
+import { MdDashboardCustomize, MdOutlineMoneyOffCsred } from "react-icons/md";
+import { TiStar } from "react-icons/ti";
 
 const Home: NextPage = () => {
   return (
@@ -43,19 +44,19 @@ const Home: NextPage = () => {
             </p>
           </div>
           <div className="flex flex-col items-center justify-center w-64">
-            <MdDashboardCustomize className="w-12 h-12 mb-2" />
-            <h3 className="text-lg font-semibold">Customizable tweet image</h3>
+            <MdOutlineMoneyOffCsred className="w-12 h-12 mb-2" />
+            <h3 className="text-lg font-semibold">No gas fees</h3>
             <p className="text-center text-gray-300">
-              You can hide/show items in the tweet like likes, retwets replies,
-              quote tweets, etc.
+              Gas fees are paid by us. You can mint your NFT for free :D
             </p>
           </div>
           <div className="flex flex-col items-center justify-center w-64">
-            <MdDashboardCustomize className="w-12 h-12 mb-2" />
-            <h3 className="text-lg font-semibold">Customizable tweet image</h3>
+            <TiStar className="w-12 h-12 mb-2" />
+            <h3 className="text-lg font-semibold">Unique</h3>
             <p className="text-center text-gray-300">
-              You can hide/show items in the tweet like likes, retwets replies,
-              quote tweets, etc.
+              Only you can mint your tweets and only one NFT can be minted per
+              tweet. You will have the rights to your NFT and will be able to do
+              anything with it.
             </p>
           </div>
         </div>

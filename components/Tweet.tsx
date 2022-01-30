@@ -7,6 +7,7 @@ import ITweetObject, {
 } from "../types/TweetData";
 import ITweetOptions from "../types/TweetOptions";
 import { Like, Logo, Reply, Retweet } from "./Icons";
+import useUser from "../hooks/useUser";
 
 interface TweetProps {
   tweetData: ITweetData;
@@ -24,6 +25,8 @@ const Tweet = ({
   const [quoteTweet, setQuoteTweet] = useState<ITweetObject>();
   const [tweetText, setTweetText] = useState<string>(tweetData.text);
 
+  const { user } = useUser();
+
   useEffect(() => {
     setQuoteTweet(undefined);
   }, []);
@@ -33,7 +36,12 @@ const Tweet = ({
       //   console.log(tweetData.referenced_tweets);
       if (tweetData.referenced_tweets?.[0].type === "quoted") {
         const tweetRes = await fetch(
-          `api/tweet?tweetId=${tweetData.referenced_tweets[0].id}`
+          `api/tweet?tweetId=${tweetData.referenced_tweets[0].id}`,
+          {
+            headers: {
+              authorization: await user?.getIdToken(),
+            } as HeadersInit,
+          }
         );
         const tweetJSON = await tweetRes.text();
         const tweetObj: ITweetObject = JSON.parse(tweetJSON);

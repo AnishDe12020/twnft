@@ -1,8 +1,21 @@
 import type { NextPage } from "next";
-import { ChangeEvent, createContext, useRef, useState, RefObject } from "react";
+import {
+  ChangeEvent,
+  createContext,
+  useRef,
+  useState,
+  RefObject,
+  useEffect,
+} from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { format, formatISO } from "date-fns";
-import { Like, Reply, Retweet, Spinner } from "../components/Icons";
+import {
+  Like,
+  Reply,
+  Retweet,
+  Spinner,
+  TwitterLogo,
+} from "../components/Icons";
 import ITweetObject from "../types/TweetData";
 import Tweet from "../components/Tweet";
 import { HiArrowNarrowRight } from "react-icons/hi";
@@ -16,6 +29,8 @@ import dynamic from "next/dynamic";
 import * as Yup from "yup";
 import ITweetContext from "../types/TweetContext";
 import useUser from "../hooks/useUser";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const TweetImageDropdown = dynamic(
   () => import("../components/TweetImageDropdown"),
@@ -49,7 +64,7 @@ const MintPage: NextPage = () => {
 
   const [tweetUrl, setTweetUrl] = useState<string>("");
 
-  const { user } = useUser();
+  const { user, signIn } = useUser();
 
   const toggleTweetOption = (option: keyof ITweetOptions) => {
     setTweetOptions({
@@ -69,47 +84,63 @@ const MintPage: NextPage = () => {
       }}
     >
       <div className="flex flex-col items-center justify-center">
-        <Formik
-          initialValues={{ link: "" }}
-          onSubmit={async (values, { setSubmitting }) => {
-            console.log(values);
-            setTweetUrl(values.link);
-            const tweetRes = await fetch(`api/tweet?tweetUrl=${values.link}`, {
-              headers: {
-                authorization: await user?.getIdToken(),
-              },
-            });
-            const tweetJSON = await tweetRes.text();
-            const tweetObj: ITweetObject = JSON.parse(tweetJSON);
-            console.log(tweetObj);
-            setTweetData(tweetObj);
-            setSubmitting(false);
-          }}
-          validationSchema={TweetURLFormSchema}
-        >
-          {({ isSubmitting, errors }) => (
-            <Form className="sticky flex items-center px-4 py-2 mx-8 transition duration-200 border-2 border-gray-600 shadow-lg top-8 px-w rounded-xl bg-secondary/10 backdrop-filter backdrop-blur-md focus-within:border-accent hover:border-opacity-60 focus-within:hover:border-accent">
-              <div className="flex flex-col space-y-2">
-                <Field
-                  type="text"
-                  name="link"
-                  placeholder="Tweet URL"
-                  className="px-4 py-2 text-xl text-gray-300 placeholder-gray-500 bg-transparent border-none focus:outline-none focus:ring-0"
-                />
-                {errors.link && (
-                  <p className="mx-4 text-sm text-red-500">{errors.link}</p>
-                )}
-              </div>
-              <button type="submit" className="w-6 h-6 ml-2 text-gray-300">
-                {isSubmitting ? (
-                  <Spinner className="text-accent" />
-                ) : (
-                  <HiArrowNarrowRight className="w-6 h-6 hover:text-accent" />
-                )}
-              </button>
-            </Form>
+        <div className="sticky flex items-center px-4 py-2 mx-8 transition duration-200 border-2 border-gray-600 shadow-lg top-8 px-w rounded-xl bg-secondary/10 backdrop-filter backdrop-blur-md focus-within:border-accent hover:border-opacity-60 focus-within:hover:border-accent">
+          {user ? (
+            <Formik
+              initialValues={{ link: "" }}
+              onSubmit={async (values, { setSubmitting }) => {
+                console.log(values);
+                setTweetUrl(values.link);
+                const tweetRes = await fetch(
+                  `api/tweet?tweetUrl=${values.link}`,
+                  {
+                    headers: {
+                      authorization: await user?.getIdToken(),
+                    } as HeadersInit,
+                  }
+                );
+                const tweetJSON = await tweetRes.text();
+                const tweetObj: ITweetObject = JSON.parse(tweetJSON);
+                console.log(tweetObj);
+                setTweetData(tweetObj);
+                setSubmitting(false);
+              }}
+              validationSchema={TweetURLFormSchema}
+            >
+              {({ isSubmitting, errors }) => (
+                <Form className="flex items-center">
+                  <div className="flex flex-col space-y-2">
+                    <Field
+                      type="text"
+                      name="link"
+                      placeholder="Tweet URL"
+                      className="px-4 py-2 text-xl text-gray-300 placeholder-gray-500 bg-transparent border-none focus:outline-none focus:ring-0"
+                    />
+                    {errors.link && (
+                      <p className="mx-4 text-sm text-red-500">{errors.link}</p>
+                    )}
+                  </div>
+
+                  <button type="submit" className="w-6 h-6 ml-2 text-gray-300">
+                    {isSubmitting ? (
+                      <Spinner className="text-accent" />
+                    ) : (
+                      <HiArrowNarrowRight className="w-6 h-6 hover:text-accent" />
+                    )}
+                  </button>
+                </Form>
+              )}
+            </Formik>
+          ) : (
+            <button
+              className="px-4 py-2 flex text-white items-center bg-[#1DA1F2] rounded-xl text-xl font-bold hover:opacity-60"
+              onClick={signIn}
+            >
+              <TwitterLogo className="w-8 h-8 mr-3" />
+              Sign In with Twitter
+            </button>
           )}
-        </Formik>
+        </div>
         <div className="mt-32 mb-16">
           {tweetData && (
             <div className="bg-transparent" ref={tweetRef}>

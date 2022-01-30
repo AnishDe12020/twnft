@@ -1,12 +1,14 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import Header from "../components/Header";
+import { Logo } from "../components/Icons";
 
 const Home: NextPage = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col justify-center mt-16 ml-16">
+      <div className="flex flex-col justify-center mt-8 ml-16">
+        <Logo className="self-center w-48 h-48 mb-8" />
         <h1 className="text-5xl text-center text-white">
           Mint your tweets as{" "}
           <span className="font-bold text-transparent bg-clip-text bg-gradient-to-tr from-pink-400 to-blue-400">

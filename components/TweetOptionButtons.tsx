@@ -21,7 +21,7 @@ const TweetOptionButtons = ({
         optionName="likes"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
-        disabled={tweetData ? true : false}
+        disabled={tweetData ? false : true}
       >
         <Like className="w-6 h-6" />
       </TweetOption>
@@ -29,7 +29,7 @@ const TweetOptionButtons = ({
         optionName="replies"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
-        disabled={tweetData ? true : false}
+        disabled={tweetData ? false : true}
       >
         <Reply className="w-6 h-6" />
       </TweetOption>
@@ -37,7 +37,7 @@ const TweetOptionButtons = ({
         optionName="retweets"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
-        disabled={tweetData ? true : false}
+        disabled={tweetData ? false : true}
       >
         <Retweet className="w-6 h-6" />
       </TweetOption>
@@ -45,7 +45,7 @@ const TweetOptionButtons = ({
         optionName="date"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
-        disabled={tweetData ? true : false}
+        disabled={tweetData ? false : true}
       >
         <HiCalendar className="w-6 h-6" />
       </TweetOption>
@@ -53,7 +53,7 @@ const TweetOptionButtons = ({
         optionName="quoteTweet"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
-        disabled={tweetData ? true : false}
+        disabled={tweetData ? false : true}
       >
         <FaQuoteLeft className="w-6 h-6" />
       </TweetOption>
@@ -61,7 +61,7 @@ const TweetOptionButtons = ({
         optionName="media"
         toggleTweetOption={toggleTweetOption}
         tweetOptions={tweetOptions}
-        disabled={tweetData ? true : false}
+        disabled={tweetData ? false : true}
       >
         <HiPhotograph className="w-6 h-6" />
       </TweetOption>

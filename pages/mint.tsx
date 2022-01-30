@@ -15,6 +15,7 @@ import ThirdWebAuth from "../components/ThirdwebAuth";
 import dynamic from "next/dynamic";
 import * as Yup from "yup";
 import ITweetContext from "../types/TweetContext";
+import useUser from "../hooks/useUser";
 
 const TweetImageDropdown = dynamic(
   () => import("../components/TweetImageDropdown"),
@@ -48,6 +49,8 @@ const MintPage: NextPage = () => {
 
   const [tweetUrl, setTweetUrl] = useState<string>("");
 
+  const { user } = useUser();
+
   const toggleTweetOption = (option: keyof ITweetOptions) => {
     setTweetOptions({
       ...tweetOptions,
@@ -71,7 +74,11 @@ const MintPage: NextPage = () => {
           onSubmit={async (values, { setSubmitting }) => {
             console.log(values);
             setTweetUrl(values.link);
-            const tweetRes = await fetch(`api/tweet?tweetUrl=${values.link}`);
+            const tweetRes = await fetch(`api/tweet?tweetUrl=${values.link}`, {
+              headers: {
+                authorization: await user?.getIdToken(),
+              },
+            });
             const tweetJSON = await tweetRes.text();
             const tweetObj: ITweetObject = JSON.parse(tweetJSON);
             console.log(tweetObj);

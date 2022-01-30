@@ -1,3 +1,4 @@
+import { NextPage } from "next";
 import { TwitterLogo } from "../components/Icons";
 import useUser from "../hooks/useUser";
 

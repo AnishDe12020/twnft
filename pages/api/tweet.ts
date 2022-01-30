@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
+import { auth } from "../../lib/firebaseAdmin";
 
 const TWITTER_TWEET_API_URL = "https://api.twitter.com/2/tweets/";
 const TWITTER_API_MORE_PARAMS =
@@ -7,6 +8,18 @@ const TWITTER_API_MORE_PARAMS =
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+    if (!req.headers.authorization) {
+      throw new Error("Missing authorization header");
+    }
+
+    const tweetAuthordId = (
+      await auth.verifyIdToken(req.headers.authorization as string)
+    ).firebase.identities["twitter.com"][0];
+
+    if (!tweetAuthordId) {
+      res.status(401).json({ error: "Unauthorized" });
+    }
+
     let tweetId: string = "";
     if (req.query.tweetId) {
       tweetId = req.query.tweetId as string;

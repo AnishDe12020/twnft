@@ -1,25 +1,36 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import Header from "../components/Header";
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <>
       <Header />
-      <h1 className="text-white">
-        {" "}
-        <h1>
-          Hey there, this is just a project I am working on. If you made it so
-          far, please send me a dm on{" "}
-          <a
-            href="https://twitter.com/AnishDe12020"
-            className="text-blue-500 hover:opacity-60"
-          >
-            Twitter
-          </a>{" "}
-          telling me where the URL to this website was compromised!
+      <div className="flex flex-col mt-16 ml-16">
+        <h1 className="text-5xl text-white">
+          Mint your tweets as{" "}
+          <span className="font-bold text-transparent bg-clip-text bg-gradient-to-tr from-pink-400 to-blue-400">
+            NFTs
+          </span>{" "}
+          and sell them on OpenSea
         </h1>
-      </h1>
-    </div>
+        <div className="flex mt-16 space-x-4">
+          <a
+            className="text-white bg-[#2882e0] px-4 py-2 rounded-xl text-xl w-fit hover:opacity-60"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://testnets.opensea.io/collection/twnft"
+          >
+            See our collection on OpenSea
+          </a>
+          <Link href="/mint" passHref>
+            <a className="relative z-10 px-3 py-2 mr-8 text-xl text-white rounded-lg text-md bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg">
+              Mint NFT
+            </a>
+          </Link>
+        </div>
+      </div>
+    </>
   );
 };
 

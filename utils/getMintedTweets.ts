@@ -3,9 +3,8 @@ import { db } from "../lib/firebaseAdmin";
 const getMintedTweets = async () => {
   const mintedTweets: any[] = [];
   const mintedTweetsRef = db.collection("nft");
-  const mintedTweetsSnapshot = await mintedTweetsRef
-    .where("minted", "==", true)
-    .get();
+  const mintedTweetsSnapshot = await mintedTweetsRef.get();
+
   mintedTweetsSnapshot.forEach(doc => {
     mintedTweets.push({ ...doc.data(), tweetId: doc.id });
   });

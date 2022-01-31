@@ -12,9 +12,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       throw new Error("Missing authorization header");
     }
 
-    const tweetAuthordId = (
-      await auth.verifyIdToken(req.headers.authorization as string)
-    ).firebase.identities["twitter.com"][0];
+    const tweetAuthordId = (await auth.verifyIdToken(req.headers.authorization))
+      .firebase.identities["twitter.com"][0];
 
     if (!tweetAuthordId) {
       res.status(401).json({ error: "Unauthorized" });

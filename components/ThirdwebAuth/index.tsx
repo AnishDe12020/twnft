@@ -5,8 +5,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { HiClipboardCopy } from "react-icons/hi";
 import truncateWalletAddress from "../../utils/truncateWalletAddress";
-import { MetamaskLogo, WalletConnectLogo } from "../Icons";
-import { EthereumLogo } from "../Icons";
+import { MetamaskLogo, WalletConnectLogo, EthereumLogo } from "../Icons";
 import MintNFTModal from "../MintNFTModal";
 
 const ThirdWebAuth = (): JSX.Element => {

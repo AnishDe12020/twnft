@@ -69,8 +69,11 @@ const MintNFTModal = () => {
           } else if (error === "notTweetOwner") {
             setError("You can only mint tweets that you own");
             setSubmitting(false);
-          } else {
+          } else if (data) {
             setTweetId(tweetData?.data.id);
+            setSubmitting(false);
+          } else {
+            setError("Something went wrong");
             setSubmitting(false);
           }
         });

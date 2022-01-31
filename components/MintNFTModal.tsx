@@ -11,24 +11,19 @@ import useUser from "../hooks/useUser";
 import * as Yup from "yup";
 import { Spinner } from "./Icons";
 import { useWeb3 } from "@3rdweb/hooks";
-import { TweetMetadata } from "../types/TweetMetadata";
+import { TweetFirebaseObject, TweetMetadata } from "../types/TweetMetadata";
 import { HiExternalLink } from "react-icons/hi";
+import Link from "next/link";
 
 const MintNFTSchema = Yup.object().shape({
   name: Yup.string().required("Required!"),
 });
 
-interface IMintedMetadata extends TweetMetadata {
-  id: number;
-}
-
 const MintNFTModal = () => {
   const [isOpen, toggleOpen] = useState<boolean>(false);
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const [errorMessage, setError] = useState<string>();
-  const [mintedMetadata, setMintedMetadata] = useState<
-    IMintedMetadata | undefined
-  >();
+  const [tweetId, setTweetId] = useState<string | undefined>();
   const { user } = useUser();
   const { tweetUrl, tweetData, tweetRef } = useTweetContext();
   const { address } = useWeb3();
@@ -82,7 +77,8 @@ const MintNFTModal = () => {
             console.log("You can only mint tweets that you own");
             setSubmitting(false);
           } else {
-            setMintedMetadata(data);
+            setTweetId(tweetData?.data.id);
+            console.log(data);
             setSubmitting(false);
           }
         });
@@ -126,7 +122,7 @@ const MintNFTModal = () => {
                 className="p-4 transition duration-200 border-2 border-gray-600 shadow-lg bg-secondary/10 transiton backdrop-filter backdrop-blur-md hover:border-opacity-60 rounded-2xl"
               >
                 <div>
-                  {!mintedMetadata && (
+                  {!tweetId && (
                     <Formik
                       initialValues={{ name: "", description: "" }}
                       onSubmit={async values => {
@@ -187,11 +183,6 @@ const MintNFTModal = () => {
                                 <span>Submit</span>
                               )}
                             </button>
-                            {isSubmitting && (
-                              <p className="mt-4 text-sm text-gray-300">
-                                This might take 2-3 minutes...
-                              </p>
-                            )}
                           </Form>
                         );
                       }}
@@ -202,16 +193,12 @@ const MintNFTModal = () => {
                       {errorMessage}
                     </p>
                   )}
-                  {mintedMetadata && (
-                    <a
-                      href={`https://testnets.opensea.io/assets/${process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS}/${mintedMetadata.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mx-4 flex bg-[#2882e0] rounded-xl w-fit items-center justify-center hover:opacity-60 py-2 px-4 text-white"
-                    >
-                      See on OpenSea
-                      <HiExternalLink className="ml-2" />
-                    </a>
+                  {tweetId && (
+                    <Link href={`/tweet/${tweetId}`} passHref>
+                      <a className="flex items-center justify-center px-4 py-2 mx-4 text-white bg-secondary rounded-xl w-fit hover:opacity-60">
+                        See tweet page
+                      </a>
+                    </Link>
                   )}
                 </div>
               </Dialog.Content>

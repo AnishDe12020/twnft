@@ -13,5 +13,9 @@ export interface TweetMetadata {
 
 export interface TweetFirebaseObject extends TweetMetadata {
   created_date: string;
-  minted: boolean;
+  tokenId?: number;
+  tweetId: string;
+  tweetUrl: string;
+  tweetOwnerId: string;
+  creatorAddress: string;
 }

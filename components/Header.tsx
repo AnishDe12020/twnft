@@ -9,8 +9,6 @@ const Header = (): JSX.Element => {
   const { signIn, user, signOutFromApp } = useUser();
   const [isOpen, setOpen] = useState<boolean>(false);
 
-  console.log(user);
-
   return (
     <nav className="flex items-center justify-between px-2 py-4 md:px-4 lg:px-8">
       <Logo className="w-12 h-12 md:w-16 md:h-16" />

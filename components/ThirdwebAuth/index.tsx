@@ -89,7 +89,6 @@ const ThirdWebAuth = (): JSX.Element => {
                         className="flex items-center px-4 py-2 text-lg text-white rounded-lg bg-secondary hover:opacity-60"
                         onClick={() => {
                           connectWallet("injected");
-                          console.log("metamask");
                         }}
                       >
                         <MetamaskLogo className="w-8 h-8 mr-2" />

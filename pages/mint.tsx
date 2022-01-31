@@ -70,7 +70,6 @@ const MintPage: NextPage = () => {
             <Formik
               initialValues={{ link: "" }}
               onSubmit={async (values, { setSubmitting }) => {
-                console.log(values);
                 setTweetUrl(values.link);
                 const tweetRes = await fetch(
                   `api/tweet?tweetUrl=${values.link}`,
@@ -82,7 +81,6 @@ const MintPage: NextPage = () => {
                 );
                 const tweetJSON = await tweetRes.text();
                 const tweetObj: ITweetObject = JSON.parse(tweetJSON);
-                console.log(tweetObj);
                 setTweetData(tweetObj);
                 setSubmitting(false);
               }}

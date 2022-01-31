@@ -41,8 +41,6 @@ const MintNFTModal = () => {
       canvas.toBlob(async blob => {
         uploadToIPFS(blob as FileOrBuffer).then(async hash => {
           const ipfsHash = hash;
-          console.log(ipfsHash);
-          console.time("genSig");
 
           const res = await fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/mint`,
@@ -67,15 +65,12 @@ const MintNFTModal = () => {
           const { error, data } = await res.json();
           if (error === "tweetMinted") {
             setError("Tweet has been already minted");
-            console.log("Tweet has been already minted");
             setSubmitting(false);
           } else if (error === "notTweetOwner") {
             setError("You can only mint tweets that you own");
-            console.log("You can only mint tweets that you own");
             setSubmitting(false);
           } else {
             setTweetId(tweetData?.data.id);
-            console.log(data);
             setSubmitting(false);
           }
         });
@@ -129,7 +124,6 @@ const MintNFTModal = () => {
                       validationSchema={MintNFTSchema}
                     >
                       {({ errors }) => {
-                        console.log("s", isSubmitting);
                         return (
                           <Form className="mx-4">
                             <div className="mt-6">

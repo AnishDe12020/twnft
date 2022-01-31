@@ -33,7 +33,6 @@ const Tweet = ({
 
   useEffect(() => {
     const fetchQuoteTweet = async () => {
-      //   console.log(tweetData.referenced_tweets);
       if (tweetData.referenced_tweets?.[0].type === "quoted") {
         const tweetRes = await fetch(
           `api/tweet?tweetId=${tweetData.referenced_tweets[0].id}`,
@@ -45,14 +44,12 @@ const Tweet = ({
         );
         const tweetJSON = await tweetRes.text();
         const tweetObj: ITweetObject = JSON.parse(tweetJSON);
-        console.log("QUOTE TWEET", tweetObj);
         setQuoteTweet(tweetObj);
       }
     };
 
     fetchQuoteTweet();
-  }, [tweetData?.referenced_tweets]);
-  // console.log(tweetIncludes);
+  }, [tweetData?.referenced_tweets, user]);
 
   useEffect(() => {
     const parseText = (text: string, urlEntities: IEntitiesURLs[]) => {
@@ -63,8 +60,6 @@ const Tweet = ({
           text = text.replace(url.url, "");
         }
       }
-
-      console.log(text);
 
       return text;
     };

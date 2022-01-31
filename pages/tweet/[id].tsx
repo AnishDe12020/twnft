@@ -11,7 +11,6 @@ interface TweetPageProps {
 }
 
 const TweetPage: NextPage<TweetPageProps> = ({ tweet }) => {
-  console.log(tweet);
   return (
     <div className="flex flex-col mx-8 my-16 space-y-16 md:space-y-0 md:space-x-16 md:flex-row lg:mx-32 md:mx-16">
       <img
@@ -60,8 +59,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
     params: { id: tweet.tweetId },
   }));
 
-  console.log(paths);
-
   return {
     paths: paths,
     fallback: "blocking",
@@ -70,7 +67,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const mintedTweet = await getMintedTweet(params?.id as string);
-  console.log(mintedTweet);
   return { props: { tweet: mintedTweet }, revalidate: 60 };
 };
 

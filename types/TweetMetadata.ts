@@ -13,7 +13,7 @@ export interface TweetMetadata {
 
 export interface TweetFirebaseObject extends TweetMetadata {
   created_date: string;
-  tokenId?: number;
+  tokenId?: string;
   tweetId: string;
   tweetUrl: string;
   tweetOwnerId: string;

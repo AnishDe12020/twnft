@@ -28,10 +28,6 @@ const Tweet = ({
   const { user } = useUser();
 
   useEffect(() => {
-    setQuoteTweet(undefined);
-  }, []);
-
-  useEffect(() => {
     const fetchQuoteTweet = async () => {
       if (tweetData.referenced_tweets?.[0].type === "quoted") {
         const tweetRes = await fetch(
@@ -52,6 +48,8 @@ const Tweet = ({
   }, [tweetData?.referenced_tweets, user]);
 
   useEffect(() => {
+    setQuoteTweet(undefined);
+
     const parseText = (text: string, urlEntities: IEntitiesURLs[]) => {
       for (const url of urlEntities) {
         if (!url.display_url.startsWith("pic.")) {
@@ -75,8 +73,8 @@ const Tweet = ({
         isQuoteTweet ? "w-[40rem]" : "w-[44rem]"
       } rounded-2xl ${isQuoteTweet ? "bg-[#404040]" : "bg-secondary"}`}
     >
-      <div className="flex flex-col items-center justify-center">
-        <div className="flex flex-col items-start justify-start">
+      <div className="flex flex-col items-center justify-center w-full">
+        <div className="flex flex-col items-start justify-start w-full">
           <div className="flex items-center justify-between w-full">
             <div className="flex">
               <img

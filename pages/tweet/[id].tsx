@@ -17,6 +17,7 @@ const TweetPage: NextPage<TweetPageProps> = ({ tweet }) => {
       <img
         src={`https://cloudflare-ipfs.com/ipfs/${getCIDFromHash(tweet.image)}`}
         alt={tweet.name}
+        className="md:max-w-[50%]"
       />
       <div className="flex flex-col mx-4 space-y-8">
         <h1 className="text-2xl text-white text-bold">{tweet.name}</h1>

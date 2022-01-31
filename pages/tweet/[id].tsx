@@ -5,6 +5,7 @@ import { TweetFirebaseObject } from "../../types/TweetMetadata";
 import getCIDFromHash from "../../utils/getCidFromHash";
 import getMintedTweet from "../../utils/getMintedTweet";
 import getMintedTweets from "../../utils/getMintedTweets";
+import { NextSeo } from "next-seo";
 
 interface TweetPageProps {
   tweet: TweetFirebaseObject;
@@ -13,6 +14,7 @@ interface TweetPageProps {
 const TweetPage: NextPage<TweetPageProps> = ({ tweet }) => {
   return (
     <div className="flex flex-col mx-8 my-16 space-y-16 md:space-y-0 md:space-x-16 md:flex-row lg:mx-32 md:mx-16">
+      <NextSeo title={`TwNFT | ${tweet.name}`} />
       <img
         src={`https://cloudflare-ipfs.com/ipfs/${getCIDFromHash(tweet.image)}`}
         alt={tweet.name}

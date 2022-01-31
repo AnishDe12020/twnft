@@ -12,6 +12,7 @@ import dynamic from "next/dynamic";
 import * as Yup from "yup";
 import ITweetContext from "../types/TweetContext";
 import useUser from "../hooks/useUser";
+import { NextSeo } from "next-seo";
 
 const TweetImageDropdown = dynamic(
   () => import("../components/TweetImageDropdown"),
@@ -64,6 +65,7 @@ const MintPage: NextPage = () => {
         tweetRef: tweetRef,
       }}
     >
+      <NextSeo title="TwNFT | Mint Tweet NFT" />
       <div className="flex flex-col items-center justify-center">
         <div className="sticky flex items-center px-4 py-2 mx-8 transition duration-200 border-2 border-gray-600 shadow-lg top-8 px-w rounded-xl bg-secondary/10 backdrop-filter backdrop-blur-md focus-within:border-accent hover:border-opacity-60 focus-within:hover:border-accent">
           {user ? (

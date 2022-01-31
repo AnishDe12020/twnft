@@ -21,6 +21,7 @@
     "framer-motion": "^6.2.1",
     "html2canvas": "1.0.0-rc.7",
     "next": "12.0.8",
+    "next-seo": "^5.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hot-toast": "^2.2.0",

@@ -4,14 +4,14 @@ import Header from "../components/Header";
 import { Logo } from "../components/Icons";
 import { MdDashboardCustomize, MdOutlineMoneyOffCsred } from "react-icons/md";
 import { TiStar } from "react-icons/ti";
-import { NextSeo } from 'next-seo';
-import SEO from "../seo.config"
-
+import { NextSeo } from "next-seo";
+import SEO from "../seo.config";
+import Footer from "../components/Footer";
 
 const Home: NextPage = () => {
   return (
-		<>
-			<NextSeo {...SEO} />
+    <>
+      <NextSeo {...SEO} />
       <Header />
       <div className="flex flex-col items-center justify-center mx-8 mb-16 md:mx-12 lg:mx-16">
         <Logo className="self-center w-48 h-48 mb-8" />
@@ -65,6 +65,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

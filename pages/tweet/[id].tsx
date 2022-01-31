@@ -71,7 +71,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const mintedTweet = await getMintedTweet(params?.id as string);
   console.log(mintedTweet);
-  return { props: { tweet: mintedTweet } };
+  return { props: { tweet: mintedTweet }, revalidate: 60 };
 };
 
 export default TweetPage;

@@ -1,36 +1,17 @@
 import type { NextPage } from "next";
-import {
-  ChangeEvent,
-  createContext,
-  useRef,
-  useState,
-  RefObject,
-  useEffect,
-} from "react";
+import { createContext, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { format, formatISO } from "date-fns";
-import {
-  Like,
-  Reply,
-  Retweet,
-  Spinner,
-  TwitterLogo,
-} from "../components/Icons";
+import { Spinner, TwitterLogo } from "../components/Icons";
 import ITweetObject from "../types/TweetData";
 import Tweet from "../components/Tweet";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import ITweetOptions from "../types/TweetOptions";
-import TweetOption from "../components/TweetOption";
-import { HiCalendar, HiPhotograph } from "react-icons/hi";
-import { FaQuoteLeft } from "react-icons/fa";
 import TweetOptionButtons from "../components/TweetOptionButtons";
 import ThirdWebAuth from "../components/ThirdwebAuth";
 import dynamic from "next/dynamic";
 import * as Yup from "yup";
 import ITweetContext from "../types/TweetContext";
 import useUser from "../hooks/useUser";
-import { useRouter } from "next/router";
-import Link from "next/link";
 
 const TweetImageDropdown = dynamic(
   () => import("../components/TweetImageDropdown"),

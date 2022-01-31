@@ -1,8 +1,7 @@
 import { uploadToIPFS } from "@3rdweb/sdk";
 import FileOrBuffer from "@3rdweb/sdk/dist/types/FileOrBuffer";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ref } from "firebase/storage";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import { AnimatePresence, motion } from "framer-motion";
 import html2canvas from "html2canvas";
 import { useEffect, useState } from "react";
@@ -11,8 +10,6 @@ import useUser from "../hooks/useUser";
 import * as Yup from "yup";
 import { Spinner } from "./Icons";
 import { useWeb3 } from "@3rdweb/hooks";
-import { TweetFirebaseObject, TweetMetadata } from "../types/TweetMetadata";
-import { HiExternalLink } from "react-icons/hi";
 import Link from "next/link";
 
 const MintNFTSchema = Yup.object().shape({

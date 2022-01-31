@@ -1,5 +1,4 @@
 import {
-  signInWithPopup,
   TwitterAuthProvider,
   User,
   onAuthStateChanged,

@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { DefaultSeo } from "next-seo";
 
 import SEO from "../seo.config";
+import Script from "next/script";
 
 const connectors = {
   injected: {},
@@ -19,6 +20,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       connectors={connectors}
       supportedChainIds={supportedChainIds}
     >
+      {process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL &&
+        process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
+          <Script
+            src={process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL}
+            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+            strategy="lazyOnload"
+          />
+        )}
       <DefaultSeo {...SEO} />
       <Toaster
         toastOptions={{

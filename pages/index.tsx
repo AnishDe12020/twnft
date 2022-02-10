@@ -38,7 +38,12 @@ const Home: NextPage = () => {
           </Link>
         </div>
 
-        <div className="flex flex-col items-center justify-center mt-16 space-y-4 text-white md:space-x-8 lg:space-x-16 md:space-y-0 md:justify-around md:flex-row">
+
+        <a href="https://www.producthunt.com/posts/twnft?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-twnft" target="_blank" rel="noopener noreferrer" className="mt-8">
+          <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=331109&theme=dark" alt="TwNFT - Mint your tweets as NFTs for free | Product Hunt" style={{width: "250px", height: "54px"}} width={250} height={54} />
+        </a> 
+
+      <div className="flex flex-col items-center justify-center mt-16 space-y-4 text-white md:space-x-8 lg:space-x-16 md:space-y-0 md:justify-around md:flex-row">
           <div className="flex flex-col items-center justify-center w-64">
             <MdDashboardCustomize className="w-12 h-12 mb-2" />
             <h3 className="text-lg font-semibold">Customizable tweet image</h3>

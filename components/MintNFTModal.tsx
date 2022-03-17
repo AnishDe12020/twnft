@@ -36,10 +36,10 @@ const MintNFTModal = () => {
       backgroundColor: null,
       useCORS: true,
       scrollY: -window.scrollY,
-    }).then(async canvas => {
+    }).then(async (canvas) => {
       canvas.style.display = "none";
-      canvas.toBlob(async blob => {
-        uploadToIPFS(blob as FileOrBuffer).then(async hash => {
+      canvas.toBlob(async (blob) => {
+        uploadToIPFS(blob as FileOrBuffer).then(async (hash) => {
           const ipfsHash = hash;
 
           const res = await fetch(
@@ -120,7 +120,7 @@ const MintNFTModal = () => {
                   {!tweetId && (
                     <Formik
                       initialValues={{ name: "", description: "" }}
-                      onSubmit={async values => {
+                      onSubmit={async (values) => {
                         setSubmitting(true);
                         await mintNFT(values.name, values.description);
                       }}
@@ -167,6 +167,11 @@ const MintNFTModal = () => {
                                 id="description"
                               />
                             </div>
+                            <p className="px-3 py-2 mt-4 text-white bg-blue-500 w-fit rounded-xl text-md">
+                              Note: The smart contract is currently deployed on
+                              the Rinkeby test network and all NFTs will be
+                              minted on the test network.
+                            </p>
                             <button
                               type="submit"
                               className="relative z-10 px-4 py-2 mt-4 text-center text-white rounded-lg w-fit bg-gradient-to-tr from-pink-700 to-blue-700 before:absolute before:inset-0 before:bg-gradient-to-bl before:from-pink before:opacity-0 before:-z-10 before:transition before:duration-500 before:hover:opacity-100 before:rounded-lg"
